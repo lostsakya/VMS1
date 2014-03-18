@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/rg" >
+    </FrameLayout>
+
+    <RadioGroup
+        android:id="@id/rg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/main_bar_bg"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/tab_location"
+            style="@style/tab"
+            android:drawableTop="@drawable/main_bar_carhistory"
+            android:tag="location"
+            android:text="车辆定位" />
+
+        <RadioButton
+            android:id="@+id/tab_status"
+            style="@style/tab"
+            android:drawableTop="@drawable/main_bar_carstate"
+            android:tag="status"
+            android:text="车辆状态" />
+
+        <RadioButton
+            android:id="@+id/tab_more"
+            style="@style/tab"
+            android:drawableTop="@drawable/main_bar_carmore"
+            android:tag="more"
+            android:text="更多" />
+    </RadioGroup>
+
+</RelativeLayout>
