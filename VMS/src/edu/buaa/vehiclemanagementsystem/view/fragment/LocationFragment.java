@@ -1,6 +1,7 @@
 package edu.buaa.vehiclemanagementsystem.view.fragment;
 
 import edu.buaa.vehiclemanagementsystem.R;
+import edu.buaa.vehiclemanagementsystem.environment.Enviroment;
 import edu.buaa.vehiclemanagementsystem.util.Constants;
 
 import android.graphics.BitmapFactory;
@@ -18,7 +19,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import java.util.ArrayList;
@@ -32,7 +33,6 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentById;
 import org.androidannotations.annotations.SeekBarProgressChange;
 import org.androidannotations.annotations.ViewById;
-import org.json.JSONObject;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
@@ -44,7 +44,7 @@ import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.PolylineOptions;
 
 @EFragment(R.layout.fragment_location)
-public class LocationFragment extends Fragment implements Listener<JSONObject>, ErrorListener {
+public class LocationFragment extends Fragment implements Listener<String>, ErrorListener {
 	@FragmentById(R.id.fragment_map)
 	SupportMapFragment fragment;
 
@@ -84,12 +84,13 @@ public class LocationFragment extends Fragment implements Listener<JSONObject>, 
 
 	private RequestQueue requestQueue;
 
-	private JsonRequest request;
+	private StringRequest request;
 
 	@AfterViews
 	void init() {
 		requestQueue = Volley.newRequestQueue(getActivity());
-
+		request = new StringRequest(Enviroment.URL, this, this);
+		requestQueue.add(request);
 		map = fragment.getMap();
 		map.setMapType(AMap.MAP_TYPE_NORMAL);
 		map.moveCamera(CameraUpdateFactory.newLatLngZoom(latlngList.get(0), 4));
@@ -194,7 +195,7 @@ public class LocationFragment extends Fragment implements Listener<JSONObject>, 
 	}
 
 	@Override
-	public void onResponse(JSONObject response) {
+	public void onResponse(String response) {
 		// TODO Auto-generated method stub
 
 	}
