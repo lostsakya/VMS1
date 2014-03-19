@@ -5,14 +5,17 @@ import android.app.Application;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
-public class VehicleManagementSystem extends Application {
+import org.androidannotations.annotations.EApplication;
+
+@EApplication
+public class VMS extends Application {
 
 	private RequestQueue mRequestQueue;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		setRequestQueue(Volley.newRequestQueue(getApplicationContext()));
+		setRequestQueue(Volley.newRequestQueue(this));
 	}
 
 	public RequestQueue getRequestQueue() {

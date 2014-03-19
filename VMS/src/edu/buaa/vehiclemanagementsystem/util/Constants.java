@@ -41,5 +41,4 @@ public class Constants {
 	public static final LatLng marker8 = new LatLng(36.24426, 108.18322);
 	public static final LatLng marker9 = new LatLng(36.24426, 112.18322);
 	public static final LatLng marker10 = new LatLng(36.24426, 116.18322);
-
 }

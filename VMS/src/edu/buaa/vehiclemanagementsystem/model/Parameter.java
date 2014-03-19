@@ -1,11 +1,19 @@
-package edu.buaa.vehiclemanagementsystem.bean;
+package edu.buaa.vehiclemanagementsystem.model;
 
-public class Parameters {
+import com.alibaba.fastjson.annotation.JSONField;
+
+public class Parameter {
+	@JSONField(name = "Func")
 	private int func;
+	@JSONField(name = "Type")
 	private int type;
+	@JSONField(name = "Data")
 	private String data;
 
-	public Parameters(int func, int type, String data) {
+	public Parameter() {
+	}
+
+	public Parameter(int func, int type, String data) {
 		this.func = func;
 		this.type = type;
 		this.data = data;

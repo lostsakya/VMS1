@@ -1,14 +1,15 @@
 package edu.buaa.vehiclemanagementsystem.view.fragment;
 
 import edu.buaa.vehiclemanagementsystem.R;
+import edu.buaa.vehiclemanagementsystem.VMS;
 import edu.buaa.vehiclemanagementsystem.environment.Enviroment;
+import edu.buaa.vehiclemanagementsystem.model.Parameter;
 import edu.buaa.vehiclemanagementsystem.util.Constants;
 
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -20,23 +21,23 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.CheckedChange;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.FragmentById;
 import org.androidannotations.annotations.SeekBarProgressChange;
 import org.androidannotations.annotations.ViewById;
 
+import com.alibaba.fastjson.JSON;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
-import com.amap.api.maps.SupportMapFragment;
+import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
@@ -44,9 +45,10 @@ import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.PolylineOptions;
 
 @EFragment(R.layout.fragment_location)
-public class LocationFragment extends Fragment implements Listener<String>, ErrorListener {
-	@FragmentById(R.id.fragment_map)
-	SupportMapFragment fragment;
+public class LocationFragment extends BaseFragment implements Listener<String>, ErrorListener {
+
+	@ViewById(R.id.mapview)
+	MapView mapView;
 
 	@ViewById(R.id.rl_locus)
 	RelativeLayout rlLocus;
@@ -66,6 +68,9 @@ public class LocationFragment extends Fragment implements Listener<String>, Erro
 	@ViewById(R.id.seek_bar)
 	SeekBar seekBar;
 
+	@App
+	VMS vms;
+
 	private AMap map;
 	// 存放所有坐标的数组
 	private ArrayList<LatLng> latlngList = new ArrayList<LatLng>();
@@ -82,16 +87,59 @@ public class LocationFragment extends Fragment implements Listener<String>, Erro
 
 	private ArrayList<LatLng> pathList;
 
-	private RequestQueue requestQueue;
-
 	private StringRequest request;
 
+	private RequestQueue mRequestQueue;
+
+	private String startTime;
+
+	private String endTime;
+
+	private int filterStopPoint = 1;
+
+	private int index = 0;
+
+	private int itemPerPage = 50;
+
+	/**
+	 * 7、下载轨迹信息数量<br/>
+	 * 申请参数：{"Func":8,"Type":6, "Data":
+	 * "JlyID ! StartTime ! EndTime ! FilterStopPoint!index ! itemperpage"}<br/>
+	 * 返回结果：{"ResultID":结果编号, DataList:"轨迹列表"} <br/>
+	 * 说明：<br/>
+	 * 结果编号：0：成功，1：失败，2：未登录<br/>
+	 * JlyID：终端编号<br/>
+	 * StartTime：开始时间<br/>
+	 * EndTime：结束时间<br/>
+	 * FilterStopPoint：是否过滤速度为0 的数据 1、是；0、否<br/>
+	 * Index: 分页序号从0开始<br/>
+	 * Itemperpage：每页数量 目前规定为50条<br/>
+	 * 轨迹列表：轨迹数据|轨迹数据……<br/>
+	 * 轨迹数据：时间,定位状态(0定位无效，1定位有效),速度,方向,油位,驾驶员姓名,经度,纬度,海拔,报警描述,状态描述,位置描述<br/>
+	 */
 	@AfterViews
 	void init() {
-		requestQueue = Volley.newRequestQueue(getActivity());
-		request = new StringRequest(Enviroment.URL, this, this);
-		requestQueue.add(request);
-		map = fragment.getMap();
+		mRequestQueue = vms.getRequestQueue();
+		String jlyId = null;
+
+		String data = jlyId + "!" + startTime + "!" + endTime + "!" + filterStopPoint + "!" + index + "!" + itemPerPage;
+		Parameter parameter = new Parameter(8, 1, data);
+		String url = Enviroment.URL + JSON.toJSONString(parameter);
+		request = new StringRequest(Enviroment.URL, new Listener<String>() {
+
+			@Override
+			public void onResponse(String response) {
+
+			}
+		}, new ErrorListener() {
+
+			@Override
+			public void onErrorResponse(VolleyError error) {
+
+			}
+		});
+		mRequestQueue.add(request);
+
 		map.setMapType(AMap.MAP_TYPE_NORMAL);
 		map.moveCamera(CameraUpdateFactory.newLatLngZoom(latlngList.get(0), 4));
 		latlngList.add(Constants.marker1);
@@ -184,7 +232,6 @@ public class LocationFragment extends Fragment implements Listener<String>, Erro
 	public void onResume() {
 		super.onResume();
 		if (map == null) {
-			map = fragment.getMap();
 		}
 	}
 

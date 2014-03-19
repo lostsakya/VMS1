@@ -99,9 +99,11 @@ public class LocationFragment0 extends Fragment {
 	class LooperThread extends Thread {
 		public Handler mHandler;
 
+		@Override
 		public void run() {
 			Looper.prepare();
 			mHandler = new Handler() {
+				@Override
 				public void handleMessage(Message msg) {
 					switch (msg.what) {
 
