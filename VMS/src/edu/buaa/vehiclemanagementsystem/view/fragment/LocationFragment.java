@@ -2,9 +2,9 @@ package edu.buaa.vehiclemanagementsystem.view.fragment;
 
 import edu.buaa.vehiclemanagementsystem.R;
 import edu.buaa.vehiclemanagementsystem.VMS;
-import edu.buaa.vehiclemanagementsystem.environment.Enviroment;
 import edu.buaa.vehiclemanagementsystem.model.Parameter;
 import edu.buaa.vehiclemanagementsystem.util.Constants;
+import edu.buaa.vehiclemanagementsystem.util.environment.Enviroment;
 
 import android.graphics.BitmapFactory;
 import android.graphics.Color;

@@ -1,9 +1,10 @@
 package edu.buaa.vehiclemanagementsystem.view.activity;
 
 import edu.buaa.vehiclemanagementsystem.R;
-import edu.buaa.vehiclemanagementsystem.environment.Enviroment;
+import edu.buaa.vehiclemanagementsystem.controller.StringCookieRequest;
 import edu.buaa.vehiclemanagementsystem.model.Parameter;
-import edu.buaa.vehiclemanagementsystem.util.LogUtil;
+import edu.buaa.vehiclemanagementsystem.model.Result;
+import edu.buaa.vehiclemanagementsystem.util.environment.Enviroment;
 
 import android.widget.ListView;
 
@@ -30,22 +31,23 @@ public class TerminalListActivity extends BaseActivity {
 		String data = null;
 		Parameter parameter = new Parameter(8, 2, data);
 		String url = Enviroment.URL + JSON.toJSONString(parameter);
-		request = new StringRequest(url, new Listener<String>() {
-
+		request = new StringCookieRequest(url, new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
-				LogUtil.log(TAG, response);
+				try {
+					Result result = JSON.parseObject(response, Result.class);
+					String data = result.getDataList();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
 			}
 		}, new ErrorListener() {
-
 			@Override
 			public void onErrorResponse(VolleyError error) {
 
 			}
 		});
-
 		mRequestQueue.add(request);
-
 	}
 
 }

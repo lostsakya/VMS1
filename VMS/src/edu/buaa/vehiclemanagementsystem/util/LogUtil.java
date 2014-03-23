@@ -2,7 +2,8 @@ package edu.buaa.vehiclemanagementsystem.util;
 
 import android.text.TextUtils;
 import android.util.Log;
-import edu.buaa.vehiclemanagementsystem.environment.Enviroment;
+
+import edu.buaa.vehiclemanagementsystem.util.environment.Enviroment;
 
 /**
  * Log Util with switch and level control

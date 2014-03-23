@@ -1,4 +1,4 @@
-package edu.buaa.vehiclemanagementsystem.environment;
+package edu.buaa.vehiclemanagementsystem.util.environment;
 
 public class Enviroment {
 

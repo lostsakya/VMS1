@@ -3,7 +3,7 @@
 //
 
 
-package edu.buaa.vehiclemanagementsystem.view;
+package edu.buaa.vehiclemanagementsystem.view.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -70,9 +70,24 @@ public final class LoginActivity_
     @Override
     public void onViewChanged(HasViews hasViews) {
         btnLogout = ((Button) hasViews.findViewById(id.btn_logout));
-        etPassword = ((EditText) hasViews.findViewById(id.et_password));
         btnLogin = ((Button) hasViews.findViewById(id.btn_login));
+        etPassword = ((EditText) hasViews.findViewById(id.et_password));
         etUsername = ((EditText) hasViews.findViewById(id.et_username));
+        {
+            View view = hasViews.findViewById(id.btn_logout);
+            if (view!= null) {
+                view.setOnClickListener(new OnClickListener() {
+
+
+                    @Override
+                    public void onClick(View view) {
+                        LoginActivity_.this.logout();
+                    }
+
+                }
+                );
+            }
+        }
         {
             View view = hasViews.findViewById(id.btn_login);
             if (view!= null) {

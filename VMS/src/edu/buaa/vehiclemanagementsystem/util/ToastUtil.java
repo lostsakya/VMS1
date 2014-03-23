@@ -16,7 +16,7 @@ public class ToastUtil {
 		toast.show();
 	}
 
-	public static void shorToast(Context context, String text) {
+	public static void shortToast(Context context, String text) {
 		toast(context, text, Toast.LENGTH_SHORT);
 	}
 

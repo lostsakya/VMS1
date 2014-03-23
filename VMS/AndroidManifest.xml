@@ -32,7 +32,7 @@
             android:name="edu.buaa.vehiclemanagementsystem.view.activity.TabActivity_"
             android:label="@string/app_name" >
         </activity>
-        <activity android:name="edu.buaa.vehiclemanagementsystem.view.LoginActivity_" >
+        <activity android:name="edu.buaa.vehiclemanagementsystem.view.activity.LoginActivity_" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,12 +1,14 @@
-package edu.buaa.vehiclemanagementsystem.view;
+package edu.buaa.vehiclemanagementsystem.view.activity;
 
 import edu.buaa.vehiclemanagementsystem.R;
-import edu.buaa.vehiclemanagementsystem.environment.Enviroment;
+import edu.buaa.vehiclemanagementsystem.VMS_;
+import edu.buaa.vehiclemanagementsystem.controller.StringCookieRequest;
 import edu.buaa.vehiclemanagementsystem.model.Parameter;
 import edu.buaa.vehiclemanagementsystem.model.Result;
+import edu.buaa.vehiclemanagementsystem.util.Constants;
 import edu.buaa.vehiclemanagementsystem.util.LogUtil;
 import edu.buaa.vehiclemanagementsystem.util.ToastUtil;
-import edu.buaa.vehiclemanagementsystem.view.activity.BaseActivity;
+import edu.buaa.vehiclemanagementsystem.util.environment.Enviroment;
 import edu.buaa.vehiclemanagementsystem.view.activity.TerminalListActivity_;
 
 import android.content.Intent;
@@ -49,13 +51,13 @@ public class LoginActivity extends BaseActivity {
 		String username = etUsername.getText().toString();
 		String password = etPassword.getText().toString();
 		if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
-			ToastUtil.shorToast(this, "用户名或密码不能为空");
+			ToastUtil.shortToast(this, "用户名或密码不能为空");
 			return;
 		}
 		String data = username + "!" + password;
 		Parameter parameter = new Parameter(8, 1, data);
 		String url = Enviroment.URL + JSON.toJSONString(parameter);
-		StringRequest request = new StringRequest(url, new com.android.volley.Response.Listener<String>() {
+		StringRequest request = new StringCookieRequest(url, null, new com.android.volley.Response.Listener<String>() {
 
 			@Override
 			public void onResponse(String response) {
@@ -63,17 +65,17 @@ public class LoginActivity extends BaseActivity {
 					Result result = JSON.parseObject(response, Result.class);
 					switch (result.getResultId()) {
 					case 0:
-						ToastUtil.shorToast(getApplicationContext(), "登录成功");
+						ToastUtil.shortToast(getApplicationContext(), "登录成功");
 						startActivity(new Intent(getApplicationContext(), TerminalListActivity_.class));
 						break;
 					case 1:
-						ToastUtil.shorToast(getApplicationContext(), "用户不存在");
+						ToastUtil.shortToast(getApplicationContext(), "用户不存在");
 						break;
 					case 2:
-						ToastUtil.shorToast(getApplicationContext(), "密码错误");
+						ToastUtil.shortToast(getApplicationContext(), "密码错误");
 						break;
 					case 3:
-						ToastUtil.shorToast(getApplicationContext(), "没有权限");
+						ToastUtil.shortToast(getApplicationContext(), "没有权限");
 						break;
 					default:
 						break;
@@ -89,5 +91,45 @@ public class LoginActivity extends BaseActivity {
 			}
 		});
 		mRequestQueue.add(request);
+	}
+
+	@Click(R.id.btn_logout)
+	void logout() {
+		String data = null;
+		Parameter parameter = new Parameter(8, 0, data);
+		String url = Enviroment.URL + JSON.toJSONString(parameter);
+		StringRequest request = new StringCookieRequest(url, new String[] { Constants.ASP_NET_SESSIONID, Constants.CAR_ADMIN_USER_COOKIE_DATA },
+				new com.android.volley.Response.Listener<String>() {
+
+					@Override
+					public void onResponse(String response) {
+						if (response != null) {
+							try {
+								Result result = JSON.parseObject(response, Result.class);
+								switch (result.getResultId()) {
+								case 0:
+									VMS_.getInstance().clearCookie();
+									ToastUtil.shortToast(getApplicationContext(), "注销成功");
+									break;
+								case 1:
+									ToastUtil.shortToast(getApplicationContext(), "注销失败");
+									break;
+								default:
+									break;
+								}
+								LogUtil.log(TAG, response);
+							} catch (Exception e) {
+							}
+						}
+					}
+
+				}, new com.android.volley.Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+
+					}
+				});
+		mRequestQueue.add(request);
+
 	}
 }
