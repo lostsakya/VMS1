@@ -9,7 +9,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -61,36 +60,25 @@ public final class FunctionActivity_
         return new FunctionActivity_.IntentBuilder_(context);
     }
 
-    public static FunctionActivity_.IntentBuilder_ intent(Fragment supportFragment) {
+    public static FunctionActivity_.IntentBuilder_ intent(android.app.Fragment fragment) {
+        return new FunctionActivity_.IntentBuilder_(fragment);
+    }
+
+    public static FunctionActivity_.IntentBuilder_ intent(android.support.v4.app.Fragment supportFragment) {
         return new FunctionActivity_.IntentBuilder_(supportFragment);
     }
 
     @Override
     public void onViewChanged(HasViews hasViews) {
         {
-            View view = hasViews.findViewById(id.btn_all_info);
+            View view = hasViews.findViewById(id.btn_locus_info);
             if (view!= null) {
                 view.setOnClickListener(new OnClickListener() {
 
 
                     @Override
                     public void onClick(View view) {
-                        FunctionActivity_.this.allInfo();
-                    }
-
-                }
-                );
-            }
-        }
-        {
-            View view = hasViews.findViewById(id.btn_locus_number);
-            if (view!= null) {
-                view.setOnClickListener(new OnClickListener() {
-
-
-                    @Override
-                    public void onClick(View view) {
-                        FunctionActivity_.this.locusNumber();
+                        FunctionActivity_.this.locusInfo();
                     }
 
                 }
@@ -113,6 +101,21 @@ public final class FunctionActivity_
             }
         }
         {
+            View view = hasViews.findViewById(id.btn_locus_number);
+            if (view!= null) {
+                view.setOnClickListener(new OnClickListener() {
+
+
+                    @Override
+                    public void onClick(View view) {
+                        FunctionActivity_.this.locusNumber();
+                    }
+
+                }
+                );
+            }
+        }
+        {
             View view = hasViews.findViewById(id.btn_group_info);
             if (view!= null) {
                 view.setOnClickListener(new OnClickListener() {
@@ -128,14 +131,14 @@ public final class FunctionActivity_
             }
         }
         {
-            View view = hasViews.findViewById(id.btn_locus_info);
+            View view = hasViews.findViewById(id.btn_all_info);
             if (view!= null) {
                 view.setOnClickListener(new OnClickListener() {
 
 
                     @Override
                     public void onClick(View view) {
-                        FunctionActivity_.this.locusInfo();
+                        FunctionActivity_.this.allInfo();
                     }
 
                 }
@@ -148,14 +151,21 @@ public final class FunctionActivity_
 
         private Context context_;
         private final Intent intent_;
-        private Fragment fragmentSupport_;
+        private android.app.Fragment fragment_;
+        private android.support.v4.app.Fragment fragmentSupport_;
 
         public IntentBuilder_(Context context) {
             context_ = context;
             intent_ = new Intent(context, FunctionActivity_.class);
         }
 
-        public IntentBuilder_(Fragment fragment) {
+        public IntentBuilder_(android.app.Fragment fragment) {
+            fragment_ = fragment;
+            context_ = fragment.getActivity();
+            intent_ = new Intent(context_, FunctionActivity_.class);
+        }
+
+        public IntentBuilder_(android.support.v4.app.Fragment fragment) {
             fragmentSupport_ = fragment;
             context_ = fragment.getActivity();
             intent_ = new Intent(context_, FunctionActivity_.class);
@@ -178,10 +188,14 @@ public final class FunctionActivity_
             if (fragmentSupport_!= null) {
                 fragmentSupport_.startActivityForResult(intent_, requestCode);
             } else {
-                if (context_ instanceof Activity) {
-                    ((Activity) context_).startActivityForResult(intent_, requestCode);
+                if (fragment_!= null) {
+                    fragment_.startActivityForResult(intent_, requestCode);
                 } else {
-                    context_.startActivity(intent_);
+                    if (context_ instanceof Activity) {
+                        ((Activity) context_).startActivityForResult(intent_, requestCode);
+                    } else {
+                        context_.startActivity(intent_);
+                    }
                 }
             }
         }

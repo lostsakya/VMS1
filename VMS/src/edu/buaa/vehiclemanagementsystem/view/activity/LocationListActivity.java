@@ -3,9 +3,9 @@ package edu.buaa.vehiclemanagementsystem.view.activity;
 import edu.buaa.vehiclemanagementsystem.R;
 import edu.buaa.vehiclemanagementsystem.controller.net.DStringRequest;
 import edu.buaa.vehiclemanagementsystem.controller.parser.Parser;
+import edu.buaa.vehiclemanagementsystem.model.LocusData;
 import edu.buaa.vehiclemanagementsystem.model.Parameter;
 import edu.buaa.vehiclemanagementsystem.model.Result;
-import edu.buaa.vehiclemanagementsystem.model.VehicleStateInfo;
 import edu.buaa.vehiclemanagementsystem.util.LogUtil;
 import edu.buaa.vehiclemanagementsystem.util.ToastUtil;
 import edu.buaa.vehiclemanagementsystem.util.environment.Enviroment;
@@ -38,20 +38,8 @@ public class LocationListActivity extends BaseActivity {
 
 	@AfterViews
 	void request() {
-		String data = "";
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(code);
-		stringBuilder.append("!");
-		stringBuilder.append(startTime);
-		stringBuilder.append("!");
-		stringBuilder.append(endTime);
-		stringBuilder.append("!");
-		stringBuilder.append(filterStopPoint);
-		stringBuilder.append("!");
-		stringBuilder.append(index);
-		stringBuilder.append("!");
-		stringBuilder.append(itemPerPage);
-
+		String data = getIntent().getStringExtra("data");
+		LogUtil.log(TAG, data);
 		Parameter parameter = new Parameter(8, 4, data);
 		String url = Enviroment.URL + JSON.toJSONString(parameter);
 		DStringRequest request = new DStringRequest(url, new Listener<String>() {
@@ -62,18 +50,17 @@ public class LocationListActivity extends BaseActivity {
 					LogUtil.log(TAG, result.toString());
 					switch (result.getResultId()) {
 					case 1:
-						ToastUtil.shortToast(getApplicationContext(), "下载全部车辆信息成功");
-						LogUtil.log(TAG, "下载全部车辆信息成功");
+						ToastUtil.shortToast(getApplicationContext(), "下载轨迹信息成功");
+						LogUtil.log(TAG, "下载轨迹信息成功");
 						String data = result.getDataList();
 						LogUtil.log(TAG, data);
-						ArrayList<VehicleStateInfo> vehicles = Parser
-								.parseStateInfo(data);
-						LogUtil.log(TAG, vehicles.toString());
-						lv.setAdapter(new VehiclesAdapter(vehicles));
+						ArrayList<LocusData> locusDatas = Parser.parseLocusData(data);
+						LogUtil.log(TAG, locusDatas.toString());
+						lv.setAdapter(new VehiclesAdapter(locusDatas));
 						break;
 					case 0:
-						ToastUtil.shortToast(getApplicationContext(), "下载全部车辆信息失败");
-						LogUtil.log(TAG, "下载全部车辆信息失败");
+						ToastUtil.shortToast(getApplicationContext(), "下载轨迹信息失败");
+						LogUtil.log(TAG, "下载轨迹信息失败");
 						break;
 					case 2:
 						ToastUtil.shortToast(getApplicationContext(), "未登录");
@@ -126,7 +113,7 @@ public class LocationListActivity extends BaseActivity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			VehicleStateInfo stateInfo = (VehicleStateInfo) list.get(position);
+			LocusData locusData = (LocusData) list.get(position);
 			Holder holder;
 			if (convertView == null) {
 				holder = new Holder();
@@ -136,7 +123,7 @@ public class LocationListActivity extends BaseActivity {
 			} else {
 				holder = (Holder) convertView.getTag();
 			}
-			holder.item.setText(Html.fromHtml(stateInfo.toString()));
+			holder.item.setText(Html.fromHtml(locusData.toString()));
 			return convertView;
 		}
 	}

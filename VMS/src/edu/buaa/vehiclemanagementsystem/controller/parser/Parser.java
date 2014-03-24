@@ -1,5 +1,6 @@
 package edu.buaa.vehiclemanagementsystem.controller.parser;
 
+import edu.buaa.vehiclemanagementsystem.model.LocusData;
 import edu.buaa.vehiclemanagementsystem.model.Vehicle;
 import edu.buaa.vehiclemanagementsystem.model.VehicleGroup;
 import edu.buaa.vehiclemanagementsystem.model.VehicleStateInfo;
@@ -59,5 +60,23 @@ public class Parser {
 			stateInfos.add(stateInfo);
 		}
 		return stateInfos;
+	}
+
+	public static ArrayList<LocusData> parseLocusData(String rawData) {
+		if (TextUtils.isEmpty(rawData)) {
+			return null;
+		}
+		ArrayList<LocusData> locusDatas = new ArrayList<LocusData>();
+		String[] data = rawData.split("\\|");
+		for (int i = 0; i < data.length; i++) {
+			String raw = data[i];
+			String[] properties = raw.split(",", -1);
+			LocusData locusData = new LocusData(properties[0], properties[1],
+					properties[2], properties[3], properties[4], properties[5],
+					properties[6], properties[7], properties[8], properties[9],
+					properties[10], properties[11]);
+			locusDatas.add(locusData);
+		}
+		return locusDatas;
 	}
 }

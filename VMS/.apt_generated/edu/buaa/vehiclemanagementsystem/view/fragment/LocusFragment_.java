@@ -68,8 +68,8 @@ public final class LocusFragment_
 
     @Override
     public void onViewChanged(HasViews hasViews) {
-        btnPlay = ((Button) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.btn_play));
         seekbar = ((SeekBar) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.seek_bar));
+        btnPlay = ((Button) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.btn_play));
         fragmentMap = ((SupportMapFragment) findSupportFragmentById(edu.buaa.vehiclemanagementsystem.R.id.map));
         {
             View view = hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.btn_play);
