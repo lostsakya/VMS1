@@ -80,8 +80,8 @@ public final class TabActivity_
     @Override
     public void onViewChanged(HasViews hasViews) {
         tabStatus = ((RadioButton) hasViews.findViewById(id.tab_status));
-        tabLocation = ((RadioButton) hasViews.findViewById(id.tab_location));
         tabMore = ((RadioButton) hasViews.findViewById(id.tab_more));
+        tabLocation = ((RadioButton) hasViews.findViewById(id.tab_location));
         {
             CompoundButton view = ((CompoundButton) hasViews.findViewById(id.tab_location));
             if (view!= null) {

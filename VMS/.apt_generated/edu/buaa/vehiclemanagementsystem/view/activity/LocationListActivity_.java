@@ -11,16 +11,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import edu.buaa.vehiclemanagementsystem.R.id;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 import edu.buaa.vehiclemanagementsystem.R.layout;
 import org.androidannotations.api.view.HasViews;
 import org.androidannotations.api.view.OnViewChangedListener;
 import org.androidannotations.api.view.OnViewChangedNotifier;
 
-public final class FunctionActivity_
-    extends FunctionActivity
+public final class LocationListActivity_
+    extends LocationListActivity
     implements HasViews, OnViewChangedListener
 {
 
@@ -32,7 +33,7 @@ public final class FunctionActivity_
         init_(savedInstanceState);
         super.onCreate(savedInstanceState);
         OnViewChangedNotifier.replaceNotifier(previousNotifier);
-        setContentView(layout.activity_function_list);
+        setContentView(layout.activity_list);
     }
 
     private void init_(Bundle savedInstanceState) {
@@ -57,91 +58,33 @@ public final class FunctionActivity_
         onViewChangedNotifier_.notifyViewChanged(this);
     }
 
-    public static FunctionActivity_.IntentBuilder_ intent(Context context) {
-        return new FunctionActivity_.IntentBuilder_(context);
+    public static LocationListActivity_.IntentBuilder_ intent(Context context) {
+        return new LocationListActivity_.IntentBuilder_(context);
     }
 
-    public static FunctionActivity_.IntentBuilder_ intent(Fragment supportFragment) {
-        return new FunctionActivity_.IntentBuilder_(supportFragment);
+    public static LocationListActivity_.IntentBuilder_ intent(Fragment supportFragment) {
+        return new LocationListActivity_.IntentBuilder_(supportFragment);
     }
 
     @Override
     public void onViewChanged(HasViews hasViews) {
+        lv = ((ListView) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.lv));
         {
-            View view = hasViews.findViewById(id.btn_all_info);
+            AdapterView<?> view = ((AdapterView<?> ) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.lv));
             if (view!= null) {
-                view.setOnClickListener(new OnClickListener() {
+                view.setOnItemClickListener(new OnItemClickListener() {
 
 
                     @Override
-                    public void onClick(View view) {
-                        FunctionActivity_.this.allInfo();
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        LocationListActivity_.this.itemClick(position);
                     }
 
                 }
                 );
             }
         }
-        {
-            View view = hasViews.findViewById(id.btn_locus_number);
-            if (view!= null) {
-                view.setOnClickListener(new OnClickListener() {
-
-
-                    @Override
-                    public void onClick(View view) {
-                        FunctionActivity_.this.locusNumber();
-                    }
-
-                }
-                );
-            }
-        }
-        {
-            View view = hasViews.findViewById(id.btn_state_info);
-            if (view!= null) {
-                view.setOnClickListener(new OnClickListener() {
-
-
-                    @Override
-                    public void onClick(View view) {
-                        FunctionActivity_.this.stateInfo();
-                    }
-
-                }
-                );
-            }
-        }
-        {
-            View view = hasViews.findViewById(id.btn_group_info);
-            if (view!= null) {
-                view.setOnClickListener(new OnClickListener() {
-
-
-                    @Override
-                    public void onClick(View view) {
-                        FunctionActivity_.this.groupInfo();
-                    }
-
-                }
-                );
-            }
-        }
-        {
-            View view = hasViews.findViewById(id.btn_locus_info);
-            if (view!= null) {
-                view.setOnClickListener(new OnClickListener() {
-
-
-                    @Override
-                    public void onClick(View view) {
-                        FunctionActivity_.this.locusInfo();
-                    }
-
-                }
-                );
-            }
-        }
+        request();
     }
 
     public static class IntentBuilder_ {
@@ -152,20 +95,20 @@ public final class FunctionActivity_
 
         public IntentBuilder_(Context context) {
             context_ = context;
-            intent_ = new Intent(context, FunctionActivity_.class);
+            intent_ = new Intent(context, LocationListActivity_.class);
         }
 
         public IntentBuilder_(Fragment fragment) {
             fragmentSupport_ = fragment;
             context_ = fragment.getActivity();
-            intent_ = new Intent(context_, FunctionActivity_.class);
+            intent_ = new Intent(context_, LocationListActivity_.class);
         }
 
         public Intent get() {
             return intent_;
         }
 
-        public FunctionActivity_.IntentBuilder_ flags(int flags) {
+        public LocationListActivity_.IntentBuilder_ flags(int flags) {
             intent_.setFlags(flags);
             return this;
         }

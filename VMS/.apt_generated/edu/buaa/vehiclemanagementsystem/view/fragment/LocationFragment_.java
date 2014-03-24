@@ -72,12 +72,12 @@ public final class LocationFragment_
 
     @Override
     public void onViewChanged(HasViews hasViews) {
-        btnLocation = ((Button) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.rb_location));
-        btnPause = ((Button) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.btn_pause));
+        btnLocus = ((Button) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.rb_locus));
         mapView = ((MapView) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.mapview));
         seekBar = ((SeekBar) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.seek_bar));
-        btnLocus = ((Button) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.rb_locus));
+        btnPause = ((Button) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.btn_pause));
         rlLocus = ((RelativeLayout) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.rl_locus));
+        btnLocation = ((Button) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.rb_location));
         btnPlay = ((Button) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.btn_play));
         {
             View view = hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.btn_play);

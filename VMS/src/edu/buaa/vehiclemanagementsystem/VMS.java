@@ -1,5 +1,6 @@
 package edu.buaa.vehiclemanagementsystem;
 
+import edu.buaa.vehiclemanagementsystem.controller.net.DVolley;
 import edu.buaa.vehiclemanagementsystem.util.Constants;
 import edu.buaa.vehiclemanagementsystem.util.LogUtil;
 import edu.buaa.vehiclemanagementsystem.util.SharedPreferencesUtil;
@@ -10,7 +11,6 @@ import android.content.SharedPreferences.Editor;
 import android.text.TextUtils;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 
 import java.util.Map;
 
@@ -25,7 +25,7 @@ public class VMS extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		setRequestQueue(Volley.newRequestQueue(this));
+		setRequestQueue(DVolley.newRequestQueue(this));
 		instance = this;
 	}
 
@@ -69,7 +69,8 @@ public class VMS extends Application {
 			return;
 		}
 
-		SharedPreferences sharedPreferences = SharedPreferencesUtil.getSharedPreferences(this, Constants.COOKIE);
+		SharedPreferences sharedPreferences = SharedPreferencesUtil.getSharedPreferences(
+				this, Constants.COOKIE);
 		StringBuilder stringBuilder = new StringBuilder();
 		int length = names.length;
 

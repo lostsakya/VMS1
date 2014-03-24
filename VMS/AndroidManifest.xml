@@ -41,6 +41,10 @@
         </activity>
         <activity android:name="edu.buaa.vehiclemanagementsystem.view.activity.TerminalListActivity_"></activity>
         <activity android:name="edu.buaa.vehiclemanagementsystem.view.activity.FunctionActivity_"></activity>
+        <activity android:name="edu.buaa.vehiclemanagementsystem.view.activity.GroupListActivity_"></activity>
+        <activity android:name="edu.buaa.vehiclemanagementsystem.view.activity.StateListActivity_"></activity>
+        <activity android:name="edu.buaa.vehiclemanagementsystem.view.activity.LocationListActivity_"></activity>
+        <activity android:name="edu.buaa.vehiclemanagementsystem.view.activity.ChooseLocationActivity_"></activity>
     </application>
 
 </manifest>

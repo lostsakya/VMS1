@@ -1,12 +1,11 @@
 package edu.buaa.vehiclemanagementsystem.view.activity;
 
 import edu.buaa.vehiclemanagementsystem.R;
-import edu.buaa.vehiclemanagementsystem.controller.StringCookieRequest;
+import edu.buaa.vehiclemanagementsystem.controller.net.DStringRequest;
 import edu.buaa.vehiclemanagementsystem.controller.parser.Parser;
-import edu.buaa.vehiclemanagementsystem.model.VehicleGroup;
 import edu.buaa.vehiclemanagementsystem.model.Parameter;
 import edu.buaa.vehiclemanagementsystem.model.Result;
-import edu.buaa.vehiclemanagementsystem.model.Vehicle;
+import edu.buaa.vehiclemanagementsystem.model.VehicleGroup;
 import edu.buaa.vehiclemanagementsystem.util.LogUtil;
 import edu.buaa.vehiclemanagementsystem.util.ToastUtil;
 import edu.buaa.vehiclemanagementsystem.util.environment.Enviroment;
@@ -45,7 +44,7 @@ public class GroupListActivity extends BaseActivity {
 		String data = null;
 		Parameter parameter = new Parameter(8, 3, data);
 		String url = Enviroment.URL + JSON.toJSONString(parameter);
-		request = new StringCookieRequest(url, new Listener<String>() {
+		request = new DStringRequest(url, new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
 				try {
@@ -116,7 +115,7 @@ public class GroupListActivity extends BaseActivity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			Vehicle vehicle = (Vehicle) list.get(position);
+			VehicleGroup group = (VehicleGroup) list.get(position);
 			Holder holder;
 			if (convertView == null) {
 				holder = new Holder();
@@ -126,7 +125,7 @@ public class GroupListActivity extends BaseActivity {
 			} else {
 				holder = (Holder) convertView.getTag();
 			}
-			holder.license.setText(Html.fromHtml(vehicle.toString()));
+			holder.license.setText(Html.fromHtml(group.toString()));
 			return convertView;
 		}
 	}

@@ -1,4 +1,4 @@
-package edu.buaa.vehiclemanagementsystem.controller;
+package edu.buaa.vehiclemanagementsystem.controller.net;
 
 import edu.buaa.vehiclemanagementsystem.VMS_;
 import edu.buaa.vehiclemanagementsystem.util.Constants;
@@ -17,27 +17,27 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class StringCookieRequest extends StringRequest {
+public class DStringRequest extends StringRequest {
 
 	private String[] cookieNames;
 
-	public StringCookieRequest(String url, Listener<String> listener, ErrorListener errorListener) {
+	public DStringRequest(String url, Listener<String> listener,
+			ErrorListener errorListener) {
 		super(url, listener, errorListener);
-		this.cookieNames = new String[] { Constants.ASP_NET_SESSIONID, Constants.CAR_ADMIN_USER_COOKIE_DATA };
+		this.cookieNames = new String[] { Constants.ASP_NET_SESSIONID,
+				Constants.CAR_ADMIN_USER_COOKIE_DATA };
 	}
 
-	public StringCookieRequest(String url, String[] cookieNames, Listener<String> listener, ErrorListener errorListener) {
+	public DStringRequest(String url, String[] cookieNames,
+			Listener<String> listener, ErrorListener errorListener) {
 		super(url, listener, errorListener);
 		this.cookieNames = cookieNames;
 	}
 
-	public StringCookieRequest(int method, String url, String[] cookieNames, Listener<String> listener, ErrorListener errorListener) {
+	public DStringRequest(int method, String url, String[] cookieNames,
+			Listener<String> listener, ErrorListener errorListener) {
 		super(method, url, listener, errorListener);
 		this.cookieNames = cookieNames;
-	}
-
-	public void getCookie(Map<String, String> cookie, String[] names) {
-		VMS_.getInstance().getCookie(cookie, names);
 	}
 
 	@Override
@@ -45,7 +45,8 @@ public class StringCookieRequest extends StringRequest {
 		VMS_.getInstance().setCookie(response.headers);
 		String parsed;
 		try {
-			parsed = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+			parsed = new String(response.data,
+					HttpHeaderParser.parseCharset(response.headers));
 		} catch (UnsupportedEncodingException e) {
 			parsed = new String(response.data);
 		}
@@ -58,7 +59,7 @@ public class StringCookieRequest extends StringRequest {
 		Map<String, String> headers = super.getHeaders();
 		if (headers == null || headers.equals(Collections.emptyMap())) {
 			headers = new HashMap<String, String>();
-			getCookie(headers, cookieNames);
+			VMS_.getInstance().getCookie(headers, cookieNames);
 		}
 		return headers;
 	}

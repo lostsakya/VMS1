@@ -2,11 +2,10 @@ package edu.buaa.vehiclemanagementsystem.view.activity;
 
 import edu.buaa.vehiclemanagementsystem.R;
 import edu.buaa.vehiclemanagementsystem.VMS_;
-import edu.buaa.vehiclemanagementsystem.controller.StringCookieRequest;
+import edu.buaa.vehiclemanagementsystem.controller.net.DStringRequest;
 import edu.buaa.vehiclemanagementsystem.model.Parameter;
 import edu.buaa.vehiclemanagementsystem.model.Result;
 import edu.buaa.vehiclemanagementsystem.util.Constants;
-import edu.buaa.vehiclemanagementsystem.util.LogUtil;
 import edu.buaa.vehiclemanagementsystem.util.ToastUtil;
 import edu.buaa.vehiclemanagementsystem.util.environment.Enviroment;
 
@@ -16,7 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -56,39 +54,40 @@ public class LoginActivity extends BaseActivity {
 		String data = username + "!" + password;
 		Parameter parameter = new Parameter(8, 1, data);
 		String url = Enviroment.URL + JSON.toJSONString(parameter);
-		StringRequest request = new StringCookieRequest(url, null, new com.android.volley.Response.Listener<String>() {
+		DStringRequest request = new DStringRequest(url,
+				new com.android.volley.Response.Listener<String>() {
 
-			@Override
-			public void onResponse(String response) {
-				if (response != null) {
-					Result result = JSON.parseObject(response, Result.class);
-					switch (result.getResultId()) {
-					case 0:
-						ToastUtil.shortToast(getApplicationContext(), "登录成功");
-						startActivity(new Intent(getApplicationContext(), TerminalListActivity_.class));
-						break;
-					case 1:
-						ToastUtil.shortToast(getApplicationContext(), "用户不存在");
-						break;
-					case 2:
-						ToastUtil.shortToast(getApplicationContext(), "密码错误");
-						break;
-					case 3:
-						ToastUtil.shortToast(getApplicationContext(), "没有权限");
-						break;
-					default:
-						break;
+					@Override
+					public void onResponse(String response) {
+						if (response != null) {
+							Result result = JSON.parseObject(response, Result.class);
+							switch (result.getResultId()) {
+							case 0:
+								ToastUtil.shortToast(getApplicationContext(), "登录成功");
+								startActivity(new Intent(getApplicationContext(),
+										FunctionActivity_.class));
+								break;
+							case 1:
+								ToastUtil.shortToast(getApplicationContext(), "用户不存在");
+								break;
+							case 2:
+								ToastUtil.shortToast(getApplicationContext(), "密码错误");
+								break;
+							case 3:
+								ToastUtil.shortToast(getApplicationContext(), "没有权限");
+								break;
+							default:
+								break;
+							}
+						}
 					}
-				}
-				LogUtil.log(TAG, response);
-			}
 
-		}, new com.android.volley.Response.ErrorListener() {
-			@Override
-			public void onErrorResponse(VolleyError error) {
+				}, new com.android.volley.Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
 
-			}
-		});
+					}
+				});
 		mRequestQueue.add(request);
 	}
 
@@ -97,7 +96,8 @@ public class LoginActivity extends BaseActivity {
 		String data = null;
 		Parameter parameter = new Parameter(8, 0, data);
 		String url = Enviroment.URL + JSON.toJSONString(parameter);
-		StringRequest request = new StringCookieRequest(url, new String[] { Constants.ASP_NET_SESSIONID, Constants.CAR_ADMIN_USER_COOKIE_DATA },
+		DStringRequest request = new DStringRequest(url, new String[] {
+				Constants.ASP_NET_SESSIONID, Constants.CAR_ADMIN_USER_COOKIE_DATA },
 				new com.android.volley.Response.Listener<String>() {
 
 					@Override
@@ -116,7 +116,6 @@ public class LoginActivity extends BaseActivity {
 								default:
 									break;
 								}
-								LogUtil.log(TAG, response);
 							} catch (Exception e) {
 							}
 						}

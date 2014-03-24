@@ -5,7 +5,7 @@ import edu.buaa.vehiclemanagementsystem.controller.net.DStringRequest;
 import edu.buaa.vehiclemanagementsystem.controller.parser.Parser;
 import edu.buaa.vehiclemanagementsystem.model.Parameter;
 import edu.buaa.vehiclemanagementsystem.model.Result;
-import edu.buaa.vehiclemanagementsystem.model.Vehicle;
+import edu.buaa.vehiclemanagementsystem.model.VehicleStateInfo;
 import edu.buaa.vehiclemanagementsystem.util.LogUtil;
 import edu.buaa.vehiclemanagementsystem.util.ToastUtil;
 import edu.buaa.vehiclemanagementsystem.util.environment.Enviroment;
@@ -32,56 +32,66 @@ import org.androidannotations.annotations.ViewById;
 import com.alibaba.fastjson.JSON;
 
 @EActivity(R.layout.activity_list)
-public class TerminalListActivity extends BaseActivity {
-
+public class LocationListActivity extends BaseActivity {
 	@ViewById(R.id.lv)
 	ListView lv;
 
 	@AfterViews
 	void request() {
-		String data = null;
-		Parameter parameter = new Parameter(8, 2, data);
+		String data = "";
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(code);
+		stringBuilder.append("!");
+		stringBuilder.append(startTime);
+		stringBuilder.append("!");
+		stringBuilder.append(endTime);
+		stringBuilder.append("!");
+		stringBuilder.append(filterStopPoint);
+		stringBuilder.append("!");
+		stringBuilder.append(index);
+		stringBuilder.append("!");
+		stringBuilder.append(itemPerPage);
+
+		Parameter parameter = new Parameter(8, 4, data);
 		String url = Enviroment.URL + JSON.toJSONString(parameter);
-		DStringRequest request = new DStringRequest(url,
-				new Listener<String>() {
-					@Override
-					public void onResponse(String response) {
-						try {
-							Result result = JSON.parseObject(response, Result.class);
-							LogUtil.log(TAG, result.toString());
-							switch (result.getResultId()) {
-							case 1:
-								ToastUtil.shortToast(getApplicationContext(),
-										"下载全部车辆信息成功");
-								LogUtil.log(TAG, "下载全部车辆信息成功");
-								String data = result.getDataList();
-								LogUtil.log(TAG, data);
-								ArrayList<Vehicle> vehicles = Parser.parseVehicles(data);
-								LogUtil.log(TAG, vehicles.toString());
-								lv.setAdapter(new VehiclesAdapter(vehicles));
-								break;
-							case 0:
-								ToastUtil.shortToast(getApplicationContext(),
-										"下载全部车辆信息失败");
-								LogUtil.log(TAG, "下载全部车辆信息失败");
-								break;
-							case 2:
-								ToastUtil.shortToast(getApplicationContext(), "未登录");
-								LogUtil.log(TAG, "未登录");
-								break;
-							default:
-								break;
-							}
-
-						} catch (Exception e) {
-						}
+		DStringRequest request = new DStringRequest(url, new Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				try {
+					Result result = JSON.parseObject(response, Result.class);
+					LogUtil.log(TAG, result.toString());
+					switch (result.getResultId()) {
+					case 1:
+						ToastUtil.shortToast(getApplicationContext(), "下载全部车辆信息成功");
+						LogUtil.log(TAG, "下载全部车辆信息成功");
+						String data = result.getDataList();
+						LogUtil.log(TAG, data);
+						ArrayList<VehicleStateInfo> vehicles = Parser
+								.parseStateInfo(data);
+						LogUtil.log(TAG, vehicles.toString());
+						lv.setAdapter(new VehiclesAdapter(vehicles));
+						break;
+					case 0:
+						ToastUtil.shortToast(getApplicationContext(), "下载全部车辆信息失败");
+						LogUtil.log(TAG, "下载全部车辆信息失败");
+						break;
+					case 2:
+						ToastUtil.shortToast(getApplicationContext(), "未登录");
+						LogUtil.log(TAG, "未登录");
+						break;
+					default:
+						break;
 					}
-				}, new ErrorListener() {
-					@Override
-					public void onErrorResponse(VolleyError error) {
 
-					}
-				});
+				} catch (Exception e) {
+				}
+			}
+		}, new ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+
+			}
+		});
 		mRequestQueue.add(request);
 	}
 
@@ -116,22 +126,22 @@ public class TerminalListActivity extends BaseActivity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			Vehicle vehicle = (Vehicle) list.get(position);
+			VehicleStateInfo stateInfo = (VehicleStateInfo) list.get(position);
 			Holder holder;
 			if (convertView == null) {
 				holder = new Holder();
 				convertView = View.inflate(getApplication(), R.layout.item, null);
-				holder.license = (TextView) convertView.findViewById(R.id.tv_item);
+				holder.item = (TextView) convertView.findViewById(R.id.tv_item);
 				convertView.setTag(holder);
 			} else {
 				holder = (Holder) convertView.getTag();
 			}
-			holder.license.setText(Html.fromHtml(vehicle.toString()));
+			holder.item.setText(Html.fromHtml(stateInfo.toString()));
 			return convertView;
 		}
 	}
 
 	static class Holder {
-		TextView license;
+		TextView item;
 	}
 }
