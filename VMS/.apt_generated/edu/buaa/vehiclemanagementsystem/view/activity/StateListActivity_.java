@@ -20,8 +20,8 @@ import org.androidannotations.api.view.HasViews;
 import org.androidannotations.api.view.OnViewChangedListener;
 import org.androidannotations.api.view.OnViewChangedNotifier;
 
-public final class TerminalListActivity_
-    extends TerminalListActivity
+public final class StateListActivity_
+    extends StateListActivity
     implements HasViews, OnViewChangedListener
 {
 
@@ -58,12 +58,12 @@ public final class TerminalListActivity_
         onViewChangedNotifier_.notifyViewChanged(this);
     }
 
-    public static TerminalListActivity_.IntentBuilder_ intent(Context context) {
-        return new TerminalListActivity_.IntentBuilder_(context);
+    public static StateListActivity_.IntentBuilder_ intent(Context context) {
+        return new StateListActivity_.IntentBuilder_(context);
     }
 
-    public static TerminalListActivity_.IntentBuilder_ intent(Fragment supportFragment) {
-        return new TerminalListActivity_.IntentBuilder_(supportFragment);
+    public static StateListActivity_.IntentBuilder_ intent(Fragment supportFragment) {
+        return new StateListActivity_.IntentBuilder_(supportFragment);
     }
 
     @Override
@@ -77,7 +77,7 @@ public final class TerminalListActivity_
 
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        TerminalListActivity_.this.itemClick(position);
+                        StateListActivity_.this.itemClick(position);
                     }
 
                 }
@@ -95,20 +95,20 @@ public final class TerminalListActivity_
 
         public IntentBuilder_(Context context) {
             context_ = context;
-            intent_ = new Intent(context, TerminalListActivity_.class);
+            intent_ = new Intent(context, StateListActivity_.class);
         }
 
         public IntentBuilder_(Fragment fragment) {
             fragmentSupport_ = fragment;
             context_ = fragment.getActivity();
-            intent_ = new Intent(context_, TerminalListActivity_.class);
+            intent_ = new Intent(context_, StateListActivity_.class);
         }
 
         public Intent get() {
             return intent_;
         }
 
-        public TerminalListActivity_.IntentBuilder_ flags(int flags) {
+        public StateListActivity_.IntentBuilder_ flags(int flags) {
             intent_.setFlags(flags);
             return this;
         }

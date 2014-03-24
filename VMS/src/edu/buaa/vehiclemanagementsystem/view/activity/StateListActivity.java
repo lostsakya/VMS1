@@ -33,15 +33,14 @@ import org.androidannotations.annotations.ViewById;
 import com.alibaba.fastjson.JSON;
 
 @EActivity(R.layout.activity_list)
-public class TerminalListActivity extends BaseActivity {
-
+public class StateListActivity extends BaseActivity {
 	@ViewById(R.id.lv)
 	ListView lv;
 	private StringRequest request;
 
 	@AfterViews
 	void request() {
-		String data = null;
+		String data = "63150001, 63150002";
 		Parameter parameter = new Parameter(8, 2, data);
 		String url = Enviroment.URL + JSON.toJSONString(parameter);
 		request = new StringCookieRequest(url, new Listener<String>() {

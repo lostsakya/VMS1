@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+ 
+    <Button
+        style="@style/style_function"
+        android:id="@+id/btn_all_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="下载全部车辆信息" />
+    <Button
+        style="@style/style_function"
+        android:id="@+id/btn_group_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="下载分组信息" />
+    <Button
+        style="@style/style_function"
+        android:id="@+id/btn_state_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="下载状态信息" />
+    <Button
+        style="@style/style_function"
+        android:id="@+id/btn_locus_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="下载轨迹信息数量统计" />
+    <Button
+        style="@style/style_function"
+        android:id="@+id/btn_locus_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="下载轨迹信息数量" />
+    
+
+</LinearLayout>

@@ -3,6 +3,7 @@ package edu.buaa.vehiclemanagementsystem.view.activity;
 import edu.buaa.vehiclemanagementsystem.R;
 import edu.buaa.vehiclemanagementsystem.controller.StringCookieRequest;
 import edu.buaa.vehiclemanagementsystem.controller.parser.Parser;
+import edu.buaa.vehiclemanagementsystem.model.VehicleGroup;
 import edu.buaa.vehiclemanagementsystem.model.Parameter;
 import edu.buaa.vehiclemanagementsystem.model.Result;
 import edu.buaa.vehiclemanagementsystem.model.Vehicle;
@@ -33,7 +34,7 @@ import org.androidannotations.annotations.ViewById;
 import com.alibaba.fastjson.JSON;
 
 @EActivity(R.layout.activity_list)
-public class TerminalListActivity extends BaseActivity {
+public class GroupListActivity extends BaseActivity {
 
 	@ViewById(R.id.lv)
 	ListView lv;
@@ -42,7 +43,7 @@ public class TerminalListActivity extends BaseActivity {
 	@AfterViews
 	void request() {
 		String data = null;
-		Parameter parameter = new Parameter(8, 2, data);
+		Parameter parameter = new Parameter(8, 3, data);
 		String url = Enviroment.URL + JSON.toJSONString(parameter);
 		request = new StringCookieRequest(url, new Listener<String>() {
 			@Override
@@ -52,17 +53,17 @@ public class TerminalListActivity extends BaseActivity {
 					LogUtil.log(TAG, result.toString());
 					switch (result.getResultId()) {
 					case 1:
-						ToastUtil.shortToast(getApplicationContext(), "下载全部车辆信息成功");
-						LogUtil.log(TAG, "下载全部车辆信息成功");
+						ToastUtil.shortToast(getApplicationContext(), "下载车辆分组信息成功");
+						LogUtil.log(TAG, "下载车辆分组信息成功");
 						String data = result.getDataList();
 						LogUtil.log(TAG, data);
-						ArrayList<Vehicle> vehicles = Parser.parseVehicles(data);
-						LogUtil.log(TAG, vehicles.toString());
-						lv.setAdapter(new VehiclesAdapter(vehicles));
+						ArrayList<VehicleGroup> groups = Parser.parseGroupInfo(data);
+						LogUtil.log(TAG, groups.toString());
+						lv.setAdapter(new VehiclesAdapter(groups));
 						break;
 					case 0:
-						ToastUtil.shortToast(getApplicationContext(), "下载全部车辆信息失败");
-						LogUtil.log(TAG, "下载全部车辆信息失败");
+						ToastUtil.shortToast(getApplicationContext(), "下载车辆分组信息失败");
+						LogUtil.log(TAG, "下载车辆分组信息失败");
 						break;
 					case 2:
 						ToastUtil.shortToast(getApplicationContext(), "未登录");
