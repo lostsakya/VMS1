@@ -12,8 +12,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import edu.buaa.vehiclemanagementsystem.R.id;
 import edu.buaa.vehiclemanagementsystem.R.layout;
 import org.androidannotations.api.view.HasViews;
 import org.androidannotations.api.view.OnViewChangedListener;
@@ -67,7 +68,22 @@ public final class TerminalListActivity_
 
     @Override
     public void onViewChanged(HasViews hasViews) {
-        lv = ((ListView) hasViews.findViewById(id.lv));
+        lv = ((ListView) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.lv));
+        {
+            AdapterView<?> view = ((AdapterView<?> ) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.lv));
+            if (view!= null) {
+                view.setOnItemClickListener(new OnItemClickListener() {
+
+
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        TerminalListActivity_.this.itemClick(position);
+                    }
+
+                }
+                );
+            }
+        }
         request();
     }
 

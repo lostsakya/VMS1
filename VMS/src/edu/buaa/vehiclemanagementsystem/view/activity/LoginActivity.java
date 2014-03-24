@@ -9,7 +9,6 @@ import edu.buaa.vehiclemanagementsystem.util.Constants;
 import edu.buaa.vehiclemanagementsystem.util.LogUtil;
 import edu.buaa.vehiclemanagementsystem.util.ToastUtil;
 import edu.buaa.vehiclemanagementsystem.util.environment.Enviroment;
-import edu.buaa.vehiclemanagementsystem.view.activity.TerminalListActivity_;
 
 import android.content.Intent;
 import android.text.TextUtils;

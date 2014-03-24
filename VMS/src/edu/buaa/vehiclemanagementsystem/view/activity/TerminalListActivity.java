@@ -6,12 +6,15 @@ import edu.buaa.vehiclemanagementsystem.controller.parser.Parser;
 import edu.buaa.vehiclemanagementsystem.model.Parameter;
 import edu.buaa.vehiclemanagementsystem.model.Result;
 import edu.buaa.vehiclemanagementsystem.model.Vehicle;
+import edu.buaa.vehiclemanagementsystem.util.LogUtil;
+import edu.buaa.vehiclemanagementsystem.util.ToastUtil;
 import edu.buaa.vehiclemanagementsystem.util.environment.Enviroment;
 
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
@@ -23,6 +26,7 @@ import java.util.List;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
 
 import com.alibaba.fastjson.JSON;
@@ -44,9 +48,29 @@ public class TerminalListActivity extends BaseActivity {
 			public void onResponse(String response) {
 				try {
 					Result result = JSON.parseObject(response, Result.class);
-					String data = result.getDataList();
-					ArrayList<Vehicle> vehicles = Parser.parseVehicles(data);
-					lv.setAdapter(new VehiclesAdapter(vehicles));
+					LogUtil.log(TAG, result.toString());
+					switch (result.getResultId()) {
+					case 1:
+						ToastUtil.shortToast(getApplicationContext(), "下载车辆信息成功");
+						LogUtil.log(TAG, "下载车辆信息成功");
+						String data = result.getDataList();
+						LogUtil.log(TAG, data);
+						ArrayList<Vehicle> vehicles = Parser.parseVehicles(data);
+						LogUtil.log(TAG, vehicles.toString());
+						lv.setAdapter(new VehiclesAdapter(vehicles));
+						break;
+					case 0:
+						ToastUtil.shortToast(getApplicationContext(), "下载车辆信息失败");
+						LogUtil.log(TAG, "下载车辆信息失败");
+						break;
+					case 2:
+						ToastUtil.shortToast(getApplicationContext(), "未登录");
+						LogUtil.log(TAG, "未登录");
+						break;
+					default:
+						break;
+					}
+
 				} catch (Exception e) {
 				}
 			}
@@ -57,6 +81,11 @@ public class TerminalListActivity extends BaseActivity {
 			}
 		});
 		mRequestQueue.add(request);
+	}
+
+	@ItemClick(R.id.lv)
+	void itemClick(int position) {
+		LogUtil.log(TAG, String.valueOf(position));
 	}
 
 	class VehiclesAdapter extends BaseAdapter {
@@ -75,22 +104,34 @@ public class TerminalListActivity extends BaseActivity {
 
 		@Override
 		public Object getItem(int position) {
-			// TODO Auto-generated method stub
-			return null;
+			return list.get(position);
 		}
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
-			return 0;
+			return position;
 		}
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			// TODO Auto-generated method stub
-			return null;
-		}
+			Vehicle vehicle = (Vehicle) list.get(position);
+			Holder holder;
+			if (convertView == null) {
+				holder = new Holder();
+				convertView = View.inflate(getApplication(), R.layout.item_vehicle, null);
+				holder.tv = (TextView) convertView.findViewById(R.id.tv);
 
+				convertView.setTag(holder);
+			} else {
+				holder = (Holder) convertView.getTag();
+			}
+			holder.tv.setText(vehicle.getLicense());
+			return convertView;
+		}
+	}
+
+	static class Holder {
+		TextView tv;
 	}
 
 }
