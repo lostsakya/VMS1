@@ -5,7 +5,6 @@ import edu.buaa.vehiclemanagementsystem.VMS_;
 import edu.buaa.vehiclemanagementsystem.controller.net.DStringRequest;
 import edu.buaa.vehiclemanagementsystem.model.Parameter;
 import edu.buaa.vehiclemanagementsystem.model.Result;
-import edu.buaa.vehiclemanagementsystem.util.Constants;
 import edu.buaa.vehiclemanagementsystem.util.ToastUtil;
 import edu.buaa.vehiclemanagementsystem.util.environment.Enviroment;
 
@@ -96,8 +95,7 @@ public class LoginActivity extends BaseActivity {
 		String data = null;
 		Parameter parameter = new Parameter(8, 0, data);
 		String url = Enviroment.URL + JSON.toJSONString(parameter);
-		DStringRequest request = new DStringRequest(url, new String[] {
-				Constants.ASP_NET_SESSIONID, Constants.CAR_ADMIN_USER_COOKIE_DATA },
+		DStringRequest request = new DStringRequest(url, null,
 				new com.android.volley.Response.Listener<String>() {
 
 					@Override

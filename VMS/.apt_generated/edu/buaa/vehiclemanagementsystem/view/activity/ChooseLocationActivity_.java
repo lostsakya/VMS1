@@ -12,11 +12,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.ToggleButton;
 import edu.buaa.vehiclemanagementsystem.R.id;
 import edu.buaa.vehiclemanagementsystem.R.layout;
@@ -76,12 +73,12 @@ public final class ChooseLocationActivity_
 
     @Override
     public void onViewChanged(HasViews hasViews) {
-        npItemPerPage = ((NumberPicker) hasViews.findViewById(id.np_item_per_page));
+        etItemPerPage = ((EditText) hasViews.findViewById(id.et_item_per_page));
         etCode = ((EditText) hasViews.findViewById(id.et_code));
-        npIndex = ((NumberPicker) hasViews.findViewById(id.np_index));
+        dpStartTime = ((DatePicker) hasViews.findViewById(id.dp_start_time));
+        etIndex = ((EditText) hasViews.findViewById(id.et_index));
         dpEndTime = ((DatePicker) hasViews.findViewById(id.dp_end_time));
         tbFilterStopPoint = ((ToggleButton) hasViews.findViewById(id.tb_filter_stop_point));
-        dpStartTime = ((DatePicker) hasViews.findViewById(id.dp_start_time));
         {
             View view = hasViews.findViewById(id.btn_commit);
             if (view!= null) {
@@ -97,21 +94,7 @@ public final class ChooseLocationActivity_
                 );
             }
         }
-        {
-            CompoundButton view = ((CompoundButton) hasViews.findViewById(id.tb_filter_stop_point));
-            if (view!= null) {
-                view.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        ChooseLocationActivity_.this.onCheckeChane(buttonView, isChecked);
-                    }
-
-                }
-                );
-            }
-        }
+        initDataPicker();
     }
 
     public static class IntentBuilder_ {

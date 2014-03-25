@@ -40,7 +40,7 @@ public class LocationListActivity extends BaseActivity {
 	void request() {
 		String data = getIntent().getStringExtra("data");
 		LogUtil.log(TAG, data);
-		Parameter parameter = new Parameter(8, 4, data);
+		Parameter parameter = new Parameter(8, 6, data);
 		String url = Enviroment.URL + JSON.toJSONString(parameter);
 		DStringRequest request = new DStringRequest(url, new Listener<String>() {
 			@Override

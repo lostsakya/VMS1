@@ -71,6 +71,21 @@ public final class FunctionActivity_
     @Override
     public void onViewChanged(HasViews hasViews) {
         {
+            View view = hasViews.findViewById(id.btn_all_info);
+            if (view!= null) {
+                view.setOnClickListener(new OnClickListener() {
+
+
+                    @Override
+                    public void onClick(View view) {
+                        FunctionActivity_.this.allInfo();
+                    }
+
+                }
+                );
+            }
+        }
+        {
             View view = hasViews.findViewById(id.btn_locus_info);
             if (view!= null) {
                 view.setOnClickListener(new OnClickListener() {
@@ -101,21 +116,6 @@ public final class FunctionActivity_
             }
         }
         {
-            View view = hasViews.findViewById(id.btn_locus_number);
-            if (view!= null) {
-                view.setOnClickListener(new OnClickListener() {
-
-
-                    @Override
-                    public void onClick(View view) {
-                        FunctionActivity_.this.locusNumber();
-                    }
-
-                }
-                );
-            }
-        }
-        {
             View view = hasViews.findViewById(id.btn_group_info);
             if (view!= null) {
                 view.setOnClickListener(new OnClickListener() {
@@ -131,14 +131,14 @@ public final class FunctionActivity_
             }
         }
         {
-            View view = hasViews.findViewById(id.btn_all_info);
+            View view = hasViews.findViewById(id.btn_locus_number);
             if (view!= null) {
                 view.setOnClickListener(new OnClickListener() {
 
 
                     @Override
                     public void onClick(View view) {
-                        FunctionActivity_.this.allInfo();
+                        FunctionActivity_.this.locusNumber();
                     }
 
                 }

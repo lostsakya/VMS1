@@ -129,14 +129,25 @@ public class LocusData {
 		this.positionDescription = positionDescription;
 	}
 
+	// 时间,定位状态(0定位无效，1定位有效),速度,方向,油位,驾驶员姓名,经度,纬度,海拔,报警描述,状态描述,位置描述
 	@Override
 	public String toString() {
-		return "LocusData [time=" + time + ", locateState=" + locateState + ", speed="
-				+ speed + ", oritation=" + oritation + ", gasPosition=" + gasPosition
-				+ ", driver=" + driver + ", longitude=" + longitude + ", latitude="
-				+ latitude + ", altitude=" + altitude + ", alarmDescription="
-				+ alarmDescription + ", stateDescription=" + stateDescription
-				+ ", positionDescription=" + positionDescription + "]";
+		return "轨迹数据<br/> [时间=" + time + ", 定位状态="
+				+ ("1".equals(locateState) ? "定位无效" : "定位有效") + ", 速度=" + speed + ", 方向="
+				+ oritation + ", 油位=" + gasPosition + ", 驾驶员姓名=" + driver + ", 经度="
+				+ longitude + ", 纬度=" + latitude + ", 海拔=" + altitude + ", 报警描述="
+				+ alarmDescription + ", 状态描述=" + stateDescription + ", 位置描述="
+				+ positionDescription + "]";
 	}
+	// @Override
+	// public String toString() {
+	// return "LocusData [time=" + time + ", locateState=" + locateState +
+	// ", speed="
+	// + speed + ", oritation=" + oritation + ", gasPosition=" + gasPosition
+	// + ", driver=" + driver + ", longitude=" + longitude + ", latitude="
+	// + latitude + ", altitude=" + altitude + ", alarmDescription="
+	// + alarmDescription + ", stateDescription=" + stateDescription
+	// + ", positionDescription=" + positionDescription + "]";
+	// }
 
 }
