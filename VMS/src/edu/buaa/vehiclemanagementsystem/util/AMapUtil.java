@@ -3,17 +3,17 @@
  */
 package edu.buaa.vehiclemanagementsystem.util;
 
+import android.text.Html;
+import android.text.Spanned;
+import android.widget.EditText;
+
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import android.text.Html;
-import android.text.Spanned;
-import android.widget.EditText;
-
-import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.services.core.LatLonPoint;
 
 public class AMapUtil {

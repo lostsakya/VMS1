@@ -3,7 +3,7 @@
 //
 
 
-package edu.buaa.vehiclemanagementsystem.view.activity;
+package edu.buaa.vehiclemanagementsystem.view.fragment;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,10 +12,6 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.RadioButton;
-import edu.buaa.vehiclemanagementsystem.R.id;
 import edu.buaa.vehiclemanagementsystem.R.layout;
 import org.androidannotations.api.SdkVersionHelper;
 import org.androidannotations.api.view.HasViews;
@@ -82,54 +78,6 @@ public final class TabActivity_
 
     @Override
     public void onViewChanged(HasViews hasViews) {
-        tabStatus = ((RadioButton) hasViews.findViewById(id.tab_status));
-        tabLocation = ((RadioButton) hasViews.findViewById(id.tab_location));
-        tabMore = ((RadioButton) hasViews.findViewById(id.tab_more));
-        {
-            CompoundButton view = ((CompoundButton) hasViews.findViewById(id.tab_location));
-            if (view!= null) {
-                view.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        TabActivity_.this.onCheckedChanged(buttonView, isChecked);
-                    }
-
-                }
-                );
-            }
-        }
-        {
-            CompoundButton view = ((CompoundButton) hasViews.findViewById(id.tab_status));
-            if (view!= null) {
-                view.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        TabActivity_.this.onCheckedChanged(buttonView, isChecked);
-                    }
-
-                }
-                );
-            }
-        }
-        {
-            CompoundButton view = ((CompoundButton) hasViews.findViewById(id.tab_more));
-            if (view!= null) {
-                view.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        TabActivity_.this.onCheckedChanged(buttonView, isChecked);
-                    }
-
-                }
-                );
-            }
-        }
         initFragment();
     }
 

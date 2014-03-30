@@ -16,7 +16,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
-import com.amap.api.maps.MapView;
+import com.amap.api.maps2d.MapView;
 import edu.buaa.vehiclemanagementsystem.R.layout;
 import edu.buaa.vehiclemanagementsystem.VMS_;
 import org.androidannotations.api.view.HasViews;
@@ -72,13 +72,13 @@ public final class LocationFragment_
 
     @Override
     public void onViewChanged(HasViews hasViews) {
+        btnPause = ((Button) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.btn_pause));
         btnLocation = ((Button) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.rb_location));
-        btnLocus = ((Button) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.rb_locus));
+        btnPlay = ((Button) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.btn_play));
         mapView = ((MapView) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.mapview));
         seekBar = ((SeekBar) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.seek_bar));
-        btnPause = ((Button) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.btn_pause));
-        btnPlay = ((Button) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.btn_play));
         rlLocus = ((RelativeLayout) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.rl_locus));
+        btnLocus = ((Button) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.rb_locus));
         {
             View view = hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.btn_play);
             if (view!= null) {
@@ -95,21 +95,6 @@ public final class LocationFragment_
             }
         }
         {
-            CompoundButton view = ((CompoundButton) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.rb_locus));
-            if (view!= null) {
-                view.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        LocationFragment_.this.locus(buttonView, isChecked);
-                    }
-
-                }
-                );
-            }
-        }
-        {
             CompoundButton view = ((CompoundButton) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.rb_location));
             if (view!= null) {
                 view.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -118,6 +103,21 @@ public final class LocationFragment_
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         LocationFragment_.this.location(buttonView, isChecked);
+                    }
+
+                }
+                );
+            }
+        }
+        {
+            CompoundButton view = ((CompoundButton) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.rb_locus));
+            if (view!= null) {
+                view.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        LocationFragment_.this.locus(buttonView, isChecked);
                     }
 
                 }

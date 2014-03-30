@@ -3,28 +3,20 @@
 //
 
 
-package edu.buaa.vehiclemanagementsystem.view.activity;
+package edu.buaa.vehiclemanagementsystem.view.activity.tabs;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.NumberPicker;
-import android.widget.ToggleButton;
-import edu.buaa.vehiclemanagementsystem.R.id;
-import edu.buaa.vehiclemanagementsystem.R.layout;
 import org.androidannotations.api.view.HasViews;
-import org.androidannotations.api.view.OnViewChangedListener;
 import org.androidannotations.api.view.OnViewChangedNotifier;
 
-public final class ChooseLocationActivity_
-    extends ChooseLocationActivity
-    implements HasViews, OnViewChangedListener
+public final class LocationActivity_
+    extends LocationActivity
+    implements HasViews
 {
 
     private final OnViewChangedNotifier onViewChangedNotifier_ = new OnViewChangedNotifier();
@@ -35,11 +27,9 @@ public final class ChooseLocationActivity_
         init_(savedInstanceState);
         super.onCreate(savedInstanceState);
         OnViewChangedNotifier.replaceNotifier(previousNotifier);
-        setContentView(layout.activity_choose_location);
     }
 
     private void init_(Bundle savedInstanceState) {
-        OnViewChangedNotifier.registerOnViewChangedListener(this);
     }
 
     @Override
@@ -60,43 +50,16 @@ public final class ChooseLocationActivity_
         onViewChangedNotifier_.notifyViewChanged(this);
     }
 
-    public static ChooseLocationActivity_.IntentBuilder_ intent(Context context) {
-        return new ChooseLocationActivity_.IntentBuilder_(context);
+    public static LocationActivity_.IntentBuilder_ intent(Context context) {
+        return new LocationActivity_.IntentBuilder_(context);
     }
 
-    public static ChooseLocationActivity_.IntentBuilder_ intent(android.app.Fragment fragment) {
-        return new ChooseLocationActivity_.IntentBuilder_(fragment);
+    public static LocationActivity_.IntentBuilder_ intent(android.app.Fragment fragment) {
+        return new LocationActivity_.IntentBuilder_(fragment);
     }
 
-    public static ChooseLocationActivity_.IntentBuilder_ intent(android.support.v4.app.Fragment supportFragment) {
-        return new ChooseLocationActivity_.IntentBuilder_(supportFragment);
-    }
-
-    @Override
-    public void onViewChanged(HasViews hasViews) {
-        npItemPerPage = ((NumberPicker) hasViews.findViewById(id.np_item_per_page));
-        npIndex = ((NumberPicker) hasViews.findViewById(id.np_index));
-        tbFilterStopPoint = ((ToggleButton) hasViews.findViewById(id.tb_filter_stop_point));
-        dpEndTime = ((DatePicker) hasViews.findViewById(id.dp_end_time));
-        dpStartTime = ((DatePicker) hasViews.findViewById(id.dp_start_time));
-        etCode = ((EditText) hasViews.findViewById(id.et_code));
-        {
-            View view = hasViews.findViewById(id.btn_download_locus_info);
-            if (view!= null) {
-                view.setOnClickListener(new OnClickListener() {
-
-
-                    @Override
-                    public void onClick(View view) {
-                        ChooseLocationActivity_.this.sendRequest();
-                    }
-
-                }
-                );
-            }
-        }
-        initNumberPicker();
-        initDataPicker();
+    public static LocationActivity_.IntentBuilder_ intent(android.support.v4.app.Fragment supportFragment) {
+        return new LocationActivity_.IntentBuilder_(supportFragment);
     }
 
     public static class IntentBuilder_ {
@@ -108,26 +71,26 @@ public final class ChooseLocationActivity_
 
         public IntentBuilder_(Context context) {
             context_ = context;
-            intent_ = new Intent(context, ChooseLocationActivity_.class);
+            intent_ = new Intent(context, LocationActivity_.class);
         }
 
         public IntentBuilder_(android.app.Fragment fragment) {
             fragment_ = fragment;
             context_ = fragment.getActivity();
-            intent_ = new Intent(context_, ChooseLocationActivity_.class);
+            intent_ = new Intent(context_, LocationActivity_.class);
         }
 
         public IntentBuilder_(android.support.v4.app.Fragment fragment) {
             fragmentSupport_ = fragment;
             context_ = fragment.getActivity();
-            intent_ = new Intent(context_, ChooseLocationActivity_.class);
+            intent_ = new Intent(context_, LocationActivity_.class);
         }
 
         public Intent get() {
             return intent_;
         }
 
-        public ChooseLocationActivity_.IntentBuilder_ flags(int flags) {
+        public LocationActivity_.IntentBuilder_ flags(int flags) {
             intent_.setFlags(flags);
             return this;
         }

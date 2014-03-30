@@ -20,6 +20,7 @@ public class Parser {
 		for (int i = 0; i < data.length; i++) {
 			String raw = data[i];
 			String[] properties = raw.split(",", -1);
+			parseNullData(properties);
 			Vehicle vehicle = new Vehicle(properties[0], properties[1], properties[2],
 					properties[3], properties[4], properties[5], properties[6],
 					properties[7]);
@@ -37,6 +38,7 @@ public class Parser {
 		for (int i = 0; i < data.length; i++) {
 			String raw = data[i];
 			String[] properties = raw.split(",", -1);
+			parseNullData(properties);
 			VehicleGroup group = new VehicleGroup(properties[0], properties[1]);
 			groups.add(group);
 		}
@@ -52,6 +54,7 @@ public class Parser {
 		for (int i = 0; i < data.length; i++) {
 			String raw = data[i];
 			String[] properties = raw.split(",", -1);
+			parseNullData(properties);
 			VehicleStateInfo stateInfo = new VehicleStateInfo(properties[0],
 					properties[1], properties[2], properties[3], properties[4],
 					properties[5], properties[6], properties[7], properties[8],
@@ -71,6 +74,7 @@ public class Parser {
 		for (int i = 0; i < data.length; i++) {
 			String raw = data[i];
 			String[] properties = raw.split(",", -1);
+			parseNullData(properties);
 			LocusData locusData = new LocusData(properties[0], properties[1],
 					properties[2], properties[3], properties[4], properties[5],
 					properties[6], properties[7], properties[8], properties[9],
@@ -79,4 +83,16 @@ public class Parser {
 		}
 		return locusDatas;
 	}
+
+	private static void parseNullData(String[] strings) {
+
+		for (int i = 0; i < strings.length; i++) {
+
+			if (TextUtils.isEmpty(strings[i])) {
+				strings[i] = "暂无数据";
+			}
+		}
+
+	}
+
 }

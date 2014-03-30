@@ -14,6 +14,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 import edu.buaa.vehiclemanagementsystem.R.layout;
 import org.androidannotations.api.view.HasViews;
 import org.androidannotations.api.view.OnViewChangedListener;
@@ -72,6 +73,7 @@ public final class LocationListActivity_
     @Override
     public void onViewChanged(HasViews hasViews) {
         lv = ((ListView) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.lv));
+        tv = ((TextView) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.tv));
         {
             AdapterView<?> view = ((AdapterView<?> ) hasViews.findViewById(edu.buaa.vehiclemanagementsystem.R.id.lv));
             if (view!= null) {
@@ -87,7 +89,9 @@ public final class LocationListActivity_
                 );
             }
         }
+        numberRequest();
         request();
+        getIntentData();
     }
 
     public static class IntentBuilder_ {

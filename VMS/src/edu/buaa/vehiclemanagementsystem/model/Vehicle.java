@@ -1,6 +1,8 @@
 package edu.buaa.vehiclemanagementsystem.model;
 
-public class Vehicle {
+import java.io.Serializable;
+
+public class Vehicle implements Serializable {
 	// 车牌号,终端编号,在线状态（0离线，1在线）,速度,是否报警（0正常，1异常）,分组编号,车牌颜色,驾驶员
 	private String license;
 	private String code;

@@ -14,7 +14,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SeekBar;
-import com.amap.api.maps.SupportMapFragment;
+import com.amap.api.maps2d.SupportMapFragment;
 import edu.buaa.vehiclemanagementsystem.R.layout;
 import org.androidannotations.api.view.HasViews;
 import org.androidannotations.api.view.OnViewChangedListener;

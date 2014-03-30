@@ -5,7 +5,7 @@ import java.io.Serializable;
 import com.alibaba.fastjson.annotation.JSONField;
 
 public class Result implements Serializable {
-	@JSONField(name = "ResultId")
+	@JSONField(name = "ResultID")
 	private int resultId;
 	@JSONField(name = "DataList")
 	private String dataList;
@@ -38,7 +38,8 @@ public class Result implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Result [resultId=" + resultId + ", dataList=" + dataList + ", count=" + count + "]";
+		return "Result [resultId=" + resultId + ", dataList=" + dataList + ", count="
+				+ count + "]";
 	}
 
 }

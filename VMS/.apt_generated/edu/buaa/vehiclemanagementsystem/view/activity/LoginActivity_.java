@@ -73,24 +73,9 @@ public final class LoginActivity_
     @Override
     public void onViewChanged(HasViews hasViews) {
         btnLogin = ((Button) hasViews.findViewById(id.btn_login));
-        etPassword = ((EditText) hasViews.findViewById(id.et_password));
-        etUsername = ((EditText) hasViews.findViewById(id.et_username));
         btnLogout = ((Button) hasViews.findViewById(id.btn_logout));
-        {
-            View view = hasViews.findViewById(id.btn_login);
-            if (view!= null) {
-                view.setOnClickListener(new OnClickListener() {
-
-
-                    @Override
-                    public void onClick(View view) {
-                        LoginActivity_.this.login();
-                    }
-
-                }
-                );
-            }
-        }
+        etUsername = ((EditText) hasViews.findViewById(id.et_username));
+        etPassword = ((EditText) hasViews.findViewById(id.et_password));
         {
             View view = hasViews.findViewById(id.btn_logout);
             if (view!= null) {
@@ -100,6 +85,21 @@ public final class LoginActivity_
                     @Override
                     public void onClick(View view) {
                         LoginActivity_.this.logout();
+                    }
+
+                }
+                );
+            }
+        }
+        {
+            View view = hasViews.findViewById(id.btn_login);
+            if (view!= null) {
+                view.setOnClickListener(new OnClickListener() {
+
+
+                    @Override
+                    public void onClick(View view) {
+                        LoginActivity_.this.loginClick();
                     }
 
                 }

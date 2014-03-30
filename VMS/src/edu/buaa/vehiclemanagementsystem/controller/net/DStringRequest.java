@@ -28,8 +28,8 @@ public class DStringRequest extends StringRequest {
 				Constants.CAR_ADMIN_USER_COOKIE_DATA };
 	}
 
-	public DStringRequest(String url, String[] cookieNames,
-			Listener<String> listener, ErrorListener errorListener) {
+	public DStringRequest(String url, String[] cookieNames, Listener<String> listener,
+			ErrorListener errorListener) {
 		super(url, listener, errorListener);
 		this.cookieNames = cookieNames;
 	}

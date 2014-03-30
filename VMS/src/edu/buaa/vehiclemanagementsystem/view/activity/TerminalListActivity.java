@@ -1,26 +1,5 @@
 package edu.buaa.vehiclemanagementsystem.view.activity;
 
-import edu.buaa.vehiclemanagementsystem.R;
-import edu.buaa.vehiclemanagementsystem.controller.net.DStringRequest;
-import edu.buaa.vehiclemanagementsystem.controller.parser.Parser;
-import edu.buaa.vehiclemanagementsystem.model.Parameter;
-import edu.buaa.vehiclemanagementsystem.model.Result;
-import edu.buaa.vehiclemanagementsystem.model.Vehicle;
-import edu.buaa.vehiclemanagementsystem.util.LogUtil;
-import edu.buaa.vehiclemanagementsystem.util.ToastUtil;
-import edu.buaa.vehiclemanagementsystem.util.environment.Enviroment;
-
-import android.text.Html;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-
-import com.android.volley.Response.ErrorListener;
-import com.android.volley.Response.Listener;
-import com.android.volley.VolleyError;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,13 +8,44 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
 
+import android.content.Intent;
+import android.text.Html;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
 import com.alibaba.fastjson.JSON;
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+
+import edu.buaa.vehiclemanagementsystem.R;
+import edu.buaa.vehiclemanagementsystem.controller.net.DStringRequest;
+import edu.buaa.vehiclemanagementsystem.controller.parser.Parser;
+import edu.buaa.vehiclemanagementsystem.model.Parameter;
+import edu.buaa.vehiclemanagementsystem.model.Result;
+import edu.buaa.vehiclemanagementsystem.model.Vehicle;
+import edu.buaa.vehiclemanagementsystem.util.Constants;
+import edu.buaa.vehiclemanagementsystem.util.LogUtil;
+import edu.buaa.vehiclemanagementsystem.util.ToastUtil;
+import edu.buaa.vehiclemanagementsystem.util.environment.Enviroment;
+import edu.buaa.vehiclemanagementsystem.view.activity.base.BaseActivity;
+import edu.buaa.vehiclemanagementsystem.view.activity.tabs.HomeActivity_;
 
 @EActivity(R.layout.activity_list)
 public class TerminalListActivity extends BaseActivity {
 
 	@ViewById(R.id.lv)
 	ListView lv;
+	protected ArrayList<Vehicle> vehicles;
 
 	@AfterViews
 	void request() {
@@ -44,10 +54,12 @@ public class TerminalListActivity extends BaseActivity {
 		String url = Enviroment.URL + JSON.toJSONString(parameter);
 		DStringRequest request = new DStringRequest(url,
 				new Listener<String>() {
+
 					@Override
 					public void onResponse(String response) {
 						try {
-							Result result = JSON.parseObject(response, Result.class);
+							Result result = JSON.parseObject(response,
+									Result.class);
 							LogUtil.log(TAG, result.toString());
 							switch (result.getResultId()) {
 							case 1:
@@ -56,7 +68,7 @@ public class TerminalListActivity extends BaseActivity {
 								LogUtil.log(TAG, "下载全部车辆信息成功");
 								String data = result.getDataList();
 								LogUtil.log(TAG, data);
-								ArrayList<Vehicle> vehicles = Parser.parseVehicles(data);
+								vehicles = Parser.parseVehicles(data);
 								LogUtil.log(TAG, vehicles.toString());
 								lv.setAdapter(new VehiclesAdapter(vehicles));
 								break;
@@ -66,7 +78,8 @@ public class TerminalListActivity extends BaseActivity {
 								LogUtil.log(TAG, "下载全部车辆信息失败");
 								break;
 							case 2:
-								ToastUtil.shortToast(getApplicationContext(), "未登录");
+								ToastUtil.shortToast(getApplicationContext(),
+										"未登录");
 								LogUtil.log(TAG, "未登录");
 								break;
 							default:
@@ -74,12 +87,32 @@ public class TerminalListActivity extends BaseActivity {
 							}
 
 						} catch (Exception e) {
+							ToastUtil.longToast(getApplicationContext(),
+									"服务端数据解析异常");
 						}
 					}
 				}, new ErrorListener() {
 					@Override
 					public void onErrorResponse(VolleyError error) {
-
+						if (error instanceof NoConnectionError) {
+							ToastUtil.longToast(getApplicationContext(),
+									"无网络连接");
+						} else if (error instanceof NetworkError) {
+							ToastUtil
+									.longToast(getApplicationContext(), "网络异常");
+						} else if (error instanceof ParseError) {
+							ToastUtil.longToast(getApplicationContext(),
+									"服务端数据解析异常");
+						} else if (error instanceof ServerError) {
+							ToastUtil.longToast(getApplicationContext(),
+									"服务器异常");
+						} else if (error instanceof TimeoutError) {
+							ToastUtil
+									.longToast(getApplicationContext(), "连接超时");
+						} else if (error instanceof AuthFailureError) {
+							ToastUtil
+									.longToast(getApplicationContext(), "授权异常");
+						}
 					}
 				});
 		mRequestQueue.add(request);
@@ -88,7 +121,10 @@ public class TerminalListActivity extends BaseActivity {
 	@ItemClick(R.id.lv)
 	void itemClick(int position) {
 		LogUtil.log(TAG, String.valueOf(position));
-
+		Vehicle vehicle = vehicles.get(position);
+		Intent intent = new Intent(this, HomeActivity_.class);
+		intent.putExtra(Constants.VEHICLE, vehicle);
+		startActivity(intent);
 	}
 
 	class VehiclesAdapter extends BaseAdapter {
@@ -120,8 +156,10 @@ public class TerminalListActivity extends BaseActivity {
 			Holder holder;
 			if (convertView == null) {
 				holder = new Holder();
-				convertView = View.inflate(getApplication(), R.layout.item, null);
-				holder.license = (TextView) convertView.findViewById(R.id.tv_item);
+				convertView = View.inflate(getApplication(), R.layout.item,
+						null);
+				holder.license = (TextView) convertView
+						.findViewById(R.id.tv_item);
 				convertView.setTag(holder);
 			} else {
 				holder = (Holder) convertView.getTag();

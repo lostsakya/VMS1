@@ -1,4 +1,4 @@
-package edu.buaa.vehiclemanagementsystem.view.activity;
+package edu.buaa.vehiclemanagementsystem.view.activity.base;
 
 import edu.buaa.vehiclemanagementsystem.VMS;
 

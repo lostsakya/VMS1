@@ -9,6 +9,7 @@ import edu.buaa.vehiclemanagementsystem.model.VehicleStateInfo;
 import edu.buaa.vehiclemanagementsystem.util.LogUtil;
 import edu.buaa.vehiclemanagementsystem.util.ToastUtil;
 import edu.buaa.vehiclemanagementsystem.util.environment.Enviroment;
+import edu.buaa.vehiclemanagementsystem.view.activity.base.BaseActivity;
 
 import android.text.Html;
 import android.view.View;
@@ -17,8 +18,14 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
@@ -51,8 +58,8 @@ public class StateListActivity extends BaseActivity {
 					LogUtil.log(TAG, result.toString());
 					switch (result.getResultId()) {
 					case 1:
-						ToastUtil.shortToast(getApplicationContext(), "下载全部车辆信息成功");
-						LogUtil.log(TAG, "下载全部车辆信息成功");
+						ToastUtil.shortToast(getApplicationContext(), "下载状态信息成功");
+						LogUtil.log(TAG, "下载状态信息成功");
 						String data = result.getDataList();
 						LogUtil.log(TAG, data);
 						ArrayList<VehicleStateInfo> vehicles = Parser
@@ -61,8 +68,8 @@ public class StateListActivity extends BaseActivity {
 						lv.setAdapter(new VehiclesAdapter(vehicles));
 						break;
 					case 0:
-						ToastUtil.shortToast(getApplicationContext(), "下载全部车辆信息失败");
-						LogUtil.log(TAG, "下载全部车辆信息失败");
+						ToastUtil.shortToast(getApplicationContext(), "下载状态信息失败");
+						LogUtil.log(TAG, "下载状态信息失败");
 						break;
 					case 2:
 						ToastUtil.shortToast(getApplicationContext(), "未登录");
@@ -73,12 +80,25 @@ public class StateListActivity extends BaseActivity {
 					}
 
 				} catch (Exception e) {
+					ToastUtil.longToast(getApplicationContext(), "服务端数据解析异常");
 				}
 			}
 		}, new ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-
+				if (error instanceof NoConnectionError) {
+					ToastUtil.longToast(getApplicationContext(), "无网络连接");
+				} else if (error instanceof NetworkError) {
+					ToastUtil.longToast(getApplicationContext(), "网络异常");
+				} else if (error instanceof ParseError) {
+					ToastUtil.longToast(getApplicationContext(), "服务端数据解析异常");
+				} else if (error instanceof ServerError) {
+					ToastUtil.longToast(getApplicationContext(), "服务器异常");
+				} else if (error instanceof TimeoutError) {
+					ToastUtil.longToast(getApplicationContext(), "连接超时");
+				} else if (error instanceof AuthFailureError) {
+					ToastUtil.longToast(getApplicationContext(), "授权异常");
+				}
 			}
 		});
 		mRequestQueue.add(request);

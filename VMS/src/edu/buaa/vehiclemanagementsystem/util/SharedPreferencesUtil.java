@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps2d.model.LatLng;
 
 public class SharedPreferencesUtil {
 

@@ -3,7 +3,7 @@
 //
 
 
-package edu.buaa.vehiclemanagementsystem.view.activity;
+package edu.buaa.vehiclemanagementsystem.view.activity.tabs;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,18 +12,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.NumberPicker;
-import android.widget.ToggleButton;
+import android.widget.Button;
+import android.widget.SeekBar;
 import edu.buaa.vehiclemanagementsystem.R.id;
-import edu.buaa.vehiclemanagementsystem.R.layout;
+import edu.buaa.vehiclemanagementsystem.VMS_;
 import org.androidannotations.api.view.HasViews;
 import org.androidannotations.api.view.OnViewChangedListener;
 import org.androidannotations.api.view.OnViewChangedNotifier;
 
-public final class ChooseLocationActivity_
-    extends ChooseLocationActivity
+public final class LocusActivity_
+    extends LocusActivity
     implements HasViews, OnViewChangedListener
 {
 
@@ -35,11 +33,11 @@ public final class ChooseLocationActivity_
         init_(savedInstanceState);
         super.onCreate(savedInstanceState);
         OnViewChangedNotifier.replaceNotifier(previousNotifier);
-        setContentView(layout.activity_choose_location);
     }
 
     private void init_(Bundle savedInstanceState) {
         OnViewChangedNotifier.registerOnViewChangedListener(this);
+        vms = VMS_.getInstance();
     }
 
     @Override
@@ -60,26 +58,41 @@ public final class ChooseLocationActivity_
         onViewChangedNotifier_.notifyViewChanged(this);
     }
 
-    public static ChooseLocationActivity_.IntentBuilder_ intent(Context context) {
-        return new ChooseLocationActivity_.IntentBuilder_(context);
+    public static LocusActivity_.IntentBuilder_ intent(Context context) {
+        return new LocusActivity_.IntentBuilder_(context);
     }
 
-    public static ChooseLocationActivity_.IntentBuilder_ intent(android.app.Fragment fragment) {
-        return new ChooseLocationActivity_.IntentBuilder_(fragment);
+    public static LocusActivity_.IntentBuilder_ intent(android.app.Fragment fragment) {
+        return new LocusActivity_.IntentBuilder_(fragment);
     }
 
-    public static ChooseLocationActivity_.IntentBuilder_ intent(android.support.v4.app.Fragment supportFragment) {
-        return new ChooseLocationActivity_.IntentBuilder_(supportFragment);
+    public static LocusActivity_.IntentBuilder_ intent(android.support.v4.app.Fragment supportFragment) {
+        return new LocusActivity_.IntentBuilder_(supportFragment);
     }
 
     @Override
     public void onViewChanged(HasViews hasViews) {
-        npItemPerPage = ((NumberPicker) hasViews.findViewById(id.np_item_per_page));
-        npIndex = ((NumberPicker) hasViews.findViewById(id.np_index));
-        tbFilterStopPoint = ((ToggleButton) hasViews.findViewById(id.tb_filter_stop_point));
-        dpEndTime = ((DatePicker) hasViews.findViewById(id.dp_end_time));
-        dpStartTime = ((DatePicker) hasViews.findViewById(id.dp_start_time));
-        etCode = ((EditText) hasViews.findViewById(id.et_code));
+        seekBar = ((SeekBar) hasViews.findViewById(id.seek_bar));
+        btnLocus = ((Button) hasViews.findViewById(id.rb_locus));
+        btnLocation = ((Button) hasViews.findViewById(id.rb_location));
+        btnPlay = ((Button) hasViews.findViewById(id.btn_play));
+        btnDownloadLocusInfo = ((Button) hasViews.findViewById(id.btn_download_locus_info));
+        btnPause = ((Button) hasViews.findViewById(id.btn_pause));
+        {
+            View view = hasViews.findViewById(id.btn_play);
+            if (view!= null) {
+                view.setOnClickListener(new OnClickListener() {
+
+
+                    @Override
+                    public void onClick(View view) {
+                        LocusActivity_.this.play();
+                    }
+
+                }
+                );
+            }
+        }
         {
             View view = hasViews.findViewById(id.btn_download_locus_info);
             if (view!= null) {
@@ -88,15 +101,13 @@ public final class ChooseLocationActivity_
 
                     @Override
                     public void onClick(View view) {
-                        ChooseLocationActivity_.this.sendRequest();
+                        LocusActivity_.this.downLocusInfo();
                     }
 
                 }
                 );
             }
         }
-        initNumberPicker();
-        initDataPicker();
     }
 
     public static class IntentBuilder_ {
@@ -108,26 +119,26 @@ public final class ChooseLocationActivity_
 
         public IntentBuilder_(Context context) {
             context_ = context;
-            intent_ = new Intent(context, ChooseLocationActivity_.class);
+            intent_ = new Intent(context, LocusActivity_.class);
         }
 
         public IntentBuilder_(android.app.Fragment fragment) {
             fragment_ = fragment;
             context_ = fragment.getActivity();
-            intent_ = new Intent(context_, ChooseLocationActivity_.class);
+            intent_ = new Intent(context_, LocusActivity_.class);
         }
 
         public IntentBuilder_(android.support.v4.app.Fragment fragment) {
             fragmentSupport_ = fragment;
             context_ = fragment.getActivity();
-            intent_ = new Intent(context_, ChooseLocationActivity_.class);
+            intent_ = new Intent(context_, LocusActivity_.class);
         }
 
         public Intent get() {
             return intent_;
         }
 
-        public ChooseLocationActivity_.IntentBuilder_ flags(int flags) {
+        public LocusActivity_.IntentBuilder_ flags(int flags) {
             intent_.setFlags(flags);
             return this;
         }

@@ -20,14 +20,14 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentById;
 import org.androidannotations.annotations.ViewById;
 
-import com.amap.api.maps.AMap;
-import com.amap.api.maps.CameraUpdateFactory;
-import com.amap.api.maps.SupportMapFragment;
-import com.amap.api.maps.model.BitmapDescriptorFactory;
-import com.amap.api.maps.model.LatLng;
-import com.amap.api.maps.model.Marker;
-import com.amap.api.maps.model.MarkerOptions;
-import com.amap.api.maps.model.PolylineOptions;
+import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.CameraUpdateFactory;
+import com.amap.api.maps2d.SupportMapFragment;
+import com.amap.api.maps2d.model.BitmapDescriptorFactory;
+import com.amap.api.maps2d.model.LatLng;
+import com.amap.api.maps2d.model.Marker;
+import com.amap.api.maps2d.model.MarkerOptions;
+import com.amap.api.maps2d.model.PolylineOptions;
 
 @EFragment(R.layout.fragment_locus)
 public class LocusFragment extends Fragment implements OnSeekBarChangeListener {
@@ -114,20 +114,32 @@ public class LocusFragment extends Fragment implements OnSeekBarChangeListener {
 		}
 		// 添加汽车位置
 		MarkerOptions markerOptions = new MarkerOptions();
-		markerOptions.position(replayGeoPoint).title("起点").snippet(" ").icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.car)))
-				.anchor(0.5f, 0.5f);
+		markerOptions
+				.position(replayGeoPoint)
+				.title("起点")
+				.snippet(" ")
+				.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(
+						getResources(), R.drawable.car))).anchor(0.5f, 0.5f);
 		marker = aMap.addMarker(markerOptions);
 		// 增加起点开始
-		aMap.addMarker(new MarkerOptions().position(latlngList.get(0)).title("起点")
-				.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.nav_route_result_start_point))));
+		aMap.addMarker(new MarkerOptions()
+				.position(latlngList.get(0))
+				.title("起点")
+				.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(
+						getResources(), R.drawable.nav_route_result_start_point))));
 		// 增加起点结束
 		if (latlngList_path.size() > 1) {
-			PolylineOptions polylineOptions = (new PolylineOptions()).addAll(latlngList_path).color(Color.rgb(9, 129, 240)).width(6.0f);
+			PolylineOptions polylineOptions = (new PolylineOptions())
+					.addAll(latlngList_path).color(Color.rgb(9, 129, 240)).width(6.0f);
 			aMap.addPolyline(polylineOptions);
 		}
 		if (latlngList_path.size() == latlngList.size()) {
-			aMap.addMarker(new MarkerOptions().position(latlngList.get(latlngList.size() - 1)).title("终点")
-					.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.nav_route_result_end_point))));
+			aMap.addMarker(new MarkerOptions()
+					.position(latlngList.get(latlngList.size() - 1))
+					.title("终点")
+					.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
+							.decodeResource(getResources(),
+									R.drawable.nav_route_result_end_point))));
 		}
 	}
 

@@ -32,14 +32,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="下载轨迹信息数量统计" />
-    <Button
-        style="@style/style_function"
-        android:id="@+id/btn_locus_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="下载轨迹信息数量" />
+        android:text="下载轨迹信息" />
+   
     
 
 </LinearLayout>

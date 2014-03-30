@@ -1,6 +1,6 @@
 package edu.buaa.vehiclemanagementsystem.model;
 
-import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps2d.model.LatLng;
 
 public class Point implements Comparable<Long> {
 	private long time;

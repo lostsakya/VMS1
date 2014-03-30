@@ -172,17 +172,39 @@ public class VehicleStateInfo {
 		this.positionDescription = positionDescription;
 	}
 
+	// 车辆状态：
+	// 终端编号,车牌号,定位状态(0定位无效，1定位有效),在线状态(0离线，1在线)
+	// ,最新时间,油位,速度,方向,经度,纬度,海拔,状态描述,报警描述,驾驶员,车队名称,位置描述
 	@Override
 	public String toString() {
-		return "VehicleInfo [code=" + code + ", license=" + license + ", locateState="
-				+ locateState + ", onlineState=" + onlineState + ", lastTime=" + lastTime
-				+ ", gasPosition=" + gasPosition + ", speed=" + speed + ", orientation="
-				+ orientation + ", longitude=" + longitude + ", latitude=" + latitude
-				+ ", altitude=" + altitude + ", stateDescription="
-				+ stateDescription.replaceAll("+", ",") + ", alarmDescription="
-				+ alarmDescription.replaceAll("+", ",") + ", driver=" + driver
-				+ ", groupName=" + groupName + ", positionDescription="
+		return "车辆状态<br/> [终端编号="
+				+ code
+				+ ", 车牌号="
+				+ license
+				+ ", 定位状态="
+				+ ("1".equals(locateState) ? "定位有效" : "定位无效")
+				+ ", 在线状态="
+				+ ("1".equals(onlineState) ? "在线" : "离线")
+				+ ", 最新时间="
+				+ lastTime
+				+ ", 油位="
+				+ gasPosition
+				+ ", 速度="
+				+ speed
+				+ ", 方向="
+				+ orientation
+				+ ", 经度="
+				+ longitude
+				+ ", 纬度="
+				+ latitude
+				+ ", 海拔="
+				+ altitude
+				+ ", 状态描述="
+				+ (stateDescription != null ? stateDescription.replaceAll("\\+", ",")
+						: "暂无数据")
+				+ ", 报警描述="
+				+ (alarmDescription != null ? alarmDescription.replaceAll("\\+", ",")
+						: "暂无数据") + ", 驾驶员=" + driver + ", 车队名称=" + groupName + ", 位置描述="
 				+ positionDescription + "]";
 	}
-
 }

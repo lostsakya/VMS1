@@ -9,6 +9,7 @@ import edu.buaa.vehiclemanagementsystem.model.VehicleGroup;
 import edu.buaa.vehiclemanagementsystem.util.LogUtil;
 import edu.buaa.vehiclemanagementsystem.util.ToastUtil;
 import edu.buaa.vehiclemanagementsystem.util.environment.Enviroment;
+import edu.buaa.vehiclemanagementsystem.view.activity.base.BaseActivity;
 
 import android.text.Html;
 import android.view.View;
@@ -17,8 +18,14 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
@@ -73,12 +80,25 @@ public class GroupListActivity extends BaseActivity {
 					}
 
 				} catch (Exception e) {
+					ToastUtil.longToast(getApplicationContext(), "服务端数据解析异常");
 				}
 			}
 		}, new ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-
+				if (error instanceof NoConnectionError) {
+					ToastUtil.longToast(getApplicationContext(), "无网络连接");
+				} else if (error instanceof NetworkError) {
+					ToastUtil.longToast(getApplicationContext(), "网络异常");
+				} else if (error instanceof ParseError) {
+					ToastUtil.longToast(getApplicationContext(), "服务端数据解析异常");
+				} else if (error instanceof ServerError) {
+					ToastUtil.longToast(getApplicationContext(), "服务器异常");
+				} else if (error instanceof TimeoutError) {
+					ToastUtil.longToast(getApplicationContext(), "连接超时");
+				} else if (error instanceof AuthFailureError) {
+					ToastUtil.longToast(getApplicationContext(), "授权异常");
+				}
 			}
 		});
 		mRequestQueue.add(request);

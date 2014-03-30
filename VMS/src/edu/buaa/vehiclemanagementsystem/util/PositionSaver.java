@@ -1,6 +1,6 @@
 package edu.buaa.vehiclemanagementsystem.util;
 
-import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps2d.model.LatLng;
 
 public class PositionSaver {
 	public void save(LatLng position) {

@@ -8,6 +8,7 @@ import edu.buaa.vehiclemanagementsystem.util.environment.Enviroment;
 
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -35,17 +36,18 @@ import org.androidannotations.annotations.SeekBarProgressChange;
 import org.androidannotations.annotations.ViewById;
 
 import com.alibaba.fastjson.JSON;
-import com.amap.api.maps.AMap;
-import com.amap.api.maps.CameraUpdateFactory;
-import com.amap.api.maps.MapView;
-import com.amap.api.maps.model.BitmapDescriptorFactory;
-import com.amap.api.maps.model.LatLng;
-import com.amap.api.maps.model.Marker;
-import com.amap.api.maps.model.MarkerOptions;
-import com.amap.api.maps.model.PolylineOptions;
+import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.CameraUpdateFactory;
+import com.amap.api.maps2d.MapView;
+import com.amap.api.maps2d.model.BitmapDescriptorFactory;
+import com.amap.api.maps2d.model.LatLng;
+import com.amap.api.maps2d.model.Marker;
+import com.amap.api.maps2d.model.MarkerOptions;
+import com.amap.api.maps2d.model.PolylineOptions;
 
 @EFragment(R.layout.fragment_location)
-public class LocationFragment extends BaseFragment implements Listener<String>, ErrorListener {
+public class LocationFragment extends BaseFragment implements Listener<String>,
+		ErrorListener {
 
 	@ViewById(R.id.mapview)
 	MapView mapView;
@@ -117,12 +119,19 @@ public class LocationFragment extends BaseFragment implements Listener<String>, 
 	 * 轨迹列表：轨迹数据|轨迹数据……<br/>
 	 * 轨迹数据：时间,定位状态(0定位无效，1定位有效),速度,方向,油位,驾驶员姓名,经度,纬度,海拔,报警描述,状态描述,位置描述<br/>
 	 */
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		mapView.onCreate(savedInstanceState);
+	}
+
 	@AfterViews
 	void init() {
 		mRequestQueue = vms.getRequestQueue();
-		String jlyId = null;
+		String jlyId = "";
 
-		String data = jlyId + "!" + startTime + "!" + endTime + "!" + filterStopPoint + "!" + index + "!" + itemPerPage;
+		String data = jlyId + "!" + startTime + "!" + endTime + "!" + filterStopPoint
+				+ "!" + index + "!" + itemPerPage;
 		Parameter parameter = new Parameter(8, 1, data);
 		String url = Enviroment.URL + JSON.toJSONString(parameter);
 		request = new StringRequest(Enviroment.URL, new Listener<String>() {
@@ -211,28 +220,58 @@ public class LocationFragment extends BaseFragment implements Listener<String>, 
 		}
 		// 添加汽车位置
 		MarkerOptions markerOptions = new MarkerOptions();
-		markerOptions.position(replayGeoPoint).title("起点").snippet(" ").icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.car)))
-				.anchor(0.5f, 0.5f);
+		markerOptions
+				.position(replayGeoPoint)
+				.title("起点")
+				.snippet(" ")
+				.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(
+						getResources(), R.drawable.car))).anchor(0.5f, 0.5f);
 		marker = map.addMarker(markerOptions);
 		// 增加起点开始
-		map.addMarker(new MarkerOptions().position(latlngList.get(0)).title("起点")
-				.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.nav_route_result_start_point))));
+		map.addMarker(new MarkerOptions()
+				.position(latlngList.get(0))
+				.title("起点")
+				.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(
+						getResources(), R.drawable.nav_route_result_start_point))));
 		// 增加起点结束
 		if (pathList.size() > 1) {
-			PolylineOptions polylineOptions = (new PolylineOptions()).addAll(pathList).color(Color.rgb(9, 129, 240)).width(6.0f);
+			PolylineOptions polylineOptions = (new PolylineOptions()).addAll(pathList)
+					.color(Color.rgb(9, 129, 240)).width(6.0f);
 			map.addPolyline(polylineOptions);
 		}
 		if (pathList.size() == latlngList.size()) {
-			map.addMarker(new MarkerOptions().position(latlngList.get(latlngList.size() - 1)).title("终点")
-					.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.nav_route_result_end_point))));
+			map.addMarker(new MarkerOptions()
+					.position(latlngList.get(latlngList.size() - 1))
+					.title("终点")
+					.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
+							.decodeResource(getResources(),
+									R.drawable.nav_route_result_end_point))));
 		}
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		if (map == null) {
-		}
+		mapView.onResume();
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		mapView.onPause();
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		mapView.onDestroy();
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		// TODO Auto-generated method stub
+		super.onSaveInstanceState(outState);
+		mapView.onSaveInstanceState(outState);
 	}
 
 	@Override

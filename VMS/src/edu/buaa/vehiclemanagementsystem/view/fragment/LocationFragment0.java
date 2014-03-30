@@ -1,5 +1,8 @@
 package edu.buaa.vehiclemanagementsystem.view.fragment;
 
+import edu.buaa.vehiclemanagementsystem.R;
+import edu.buaa.vehiclemanagementsystem.util.Constants;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -9,16 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.amap.api.maps.AMap;
-import com.amap.api.maps.MapView;
-import com.amap.api.maps.model.BitmapDescriptorFactory;
-import com.amap.api.maps.model.LatLng;
-import com.amap.api.maps.model.Marker;
-import com.amap.api.maps.model.MarkerOptions;
-
-import edu.buaa.vehiclemanagementsystem.R;
-import edu.buaa.vehiclemanagementsystem.util.Constants;
-import edu.buaa.vehiclemanagementsystem.util.SharedPreferencesUtil;
+import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.MapView;
+import com.amap.api.maps2d.model.BitmapDescriptorFactory;
+import com.amap.api.maps2d.model.LatLng;
+import com.amap.api.maps2d.model.Marker;
+import com.amap.api.maps2d.model.MarkerOptions;
 
 public class LocationFragment0 extends Fragment {
 
@@ -29,7 +28,8 @@ public class LocationFragment0 extends Fragment {
 	private MapView mapView;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_location, container, false);
 		mapView = (MapView) view.findViewById(R.id.mapview);
 		return view;
@@ -77,14 +77,15 @@ public class LocationFragment0 extends Fragment {
 		mapView.onDestroy();
 	}
 
-	private LatLng getLastPosition() {
-		return SharedPreferencesUtil.getPosition(getActivity());
-	}
+	// private LatLng getLastPosition() {
+	// return SharedPreferencesUtil.getPosition(getActivity());
+	// }
 
 	private void addMarker(LatLng position) {
 		MarkerOptions markerOptions = new MarkerOptions();
 		markerOptions.position(position);
-		markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+		markerOptions.icon(BitmapDescriptorFactory
+				.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 		marker = aMap.addMarker(markerOptions);
 	}
 

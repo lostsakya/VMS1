@@ -1,6 +1,6 @@
 package edu.buaa.vehiclemanagementsystem.util;
 
-import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps2d.model.LatLng;
 
 public class Constants {
 
@@ -8,6 +8,7 @@ public class Constants {
 	public static final String COOKIE = "Cookie";
 	public static final String CAR_ADMIN_USER_COOKIE_DATA = "caradminUserCookieData";
 	public static final String ASP_NET_SESSIONID = "ASP.NET_SessionId";
+	public static final String VEHICLE = "vehicle";
 
 	public static final int ERROR = 1001;// 网络异常
 	public static final int ROUTE_START_SEARCH = 2000;
@@ -46,4 +47,5 @@ public class Constants {
 	public static final LatLng marker8 = new LatLng(36.24426, 108.18322);
 	public static final LatLng marker9 = new LatLng(36.24426, 112.18322);
 	public static final LatLng marker10 = new LatLng(36.24426, 116.18322);
+
 }

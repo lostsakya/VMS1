@@ -9,6 +9,7 @@ import edu.buaa.vehiclemanagementsystem.model.Result;
 import edu.buaa.vehiclemanagementsystem.util.LogUtil;
 import edu.buaa.vehiclemanagementsystem.util.ToastUtil;
 import edu.buaa.vehiclemanagementsystem.util.environment.Enviroment;
+import edu.buaa.vehiclemanagementsystem.view.activity.base.BaseActivity;
 
 import android.text.Html;
 import android.view.View;
@@ -17,8 +18,14 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 
 import java.util.ArrayList;
@@ -35,11 +42,74 @@ import com.alibaba.fastjson.JSON;
 public class LocationListActivity extends BaseActivity {
 	@ViewById(R.id.lv)
 	ListView lv;
+	@ViewById(R.id.tv)
+	TextView tv;
+	private String data;
+
+	@AfterViews
+	void getIntentData() {
+		data = getIntent().getStringExtra("data");
+		LogUtil.log(TAG, data);
+	}
+
+	@AfterViews
+	void numberRequest() {
+		Parameter parameter = new Parameter(8, 5, data);
+		String url = Enviroment.URL + JSON.toJSONString(parameter);
+		DStringRequest request = new DStringRequest(url, new Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				try {
+					Result result = JSON.parseObject(response, Result.class);
+					LogUtil.log(TAG, result.toString());
+					switch (result.getResultId()) {
+					case 1:
+						ToastUtil.shortToast(getApplicationContext(), "下载轨迹信息统计数据成功");
+						LogUtil.log(TAG, "下载轨迹信息统计数据成功");
+						int count = result.getCount();
+						LogUtil.log(TAG, String.valueOf(count));
+						tv.setText("数据总数：" + count);
+						tv.setVisibility(View.VISIBLE);
+						break;
+					case 0:
+						ToastUtil.shortToast(getApplicationContext(), "下载轨迹信息统计数据失败");
+						LogUtil.log(TAG, "下载轨迹信息统计数据失败");
+						break;
+					case 2:
+						ToastUtil.shortToast(getApplicationContext(), "未登录");
+						LogUtil.log(TAG, "未登录");
+						break;
+					default:
+						break;
+					}
+
+				} catch (Exception e) {
+					ToastUtil.longToast(getApplicationContext(), "服务端数据解析异常");
+				}
+			}
+		}, new ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				if (error instanceof NoConnectionError) {
+					ToastUtil.longToast(getApplicationContext(), "无网络连接");
+				} else if (error instanceof NetworkError) {
+					ToastUtil.longToast(getApplicationContext(), "网络异常");
+				} else if (error instanceof ParseError) {
+					ToastUtil.longToast(getApplicationContext(), "服务端数据解析异常");
+				} else if (error instanceof ServerError) {
+					ToastUtil.longToast(getApplicationContext(), "服务器异常");
+				} else if (error instanceof TimeoutError) {
+					ToastUtil.longToast(getApplicationContext(), "连接超时");
+				} else if (error instanceof AuthFailureError) {
+					ToastUtil.longToast(getApplicationContext(), "授权异常");
+				}
+			}
+		});
+		mRequestQueue.add(request);
+	}
 
 	@AfterViews
 	void request() {
-		String data = getIntent().getStringExtra("data");
-		LogUtil.log(TAG, data);
 		Parameter parameter = new Parameter(8, 6, data);
 		String url = Enviroment.URL + JSON.toJSONString(parameter);
 		DStringRequest request = new DStringRequest(url, new Listener<String>() {
@@ -71,11 +141,25 @@ public class LocationListActivity extends BaseActivity {
 					}
 
 				} catch (Exception e) {
+					ToastUtil.longToast(getApplicationContext(), "服务端数据解析异常");
 				}
 			}
 		}, new ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
+				if (error instanceof NoConnectionError) {
+					ToastUtil.longToast(getApplicationContext(), "无网络连接");
+				} else if (error instanceof NetworkError) {
+					ToastUtil.longToast(getApplicationContext(), "网络异常");
+				} else if (error instanceof ParseError) {
+					ToastUtil.longToast(getApplicationContext(), "服务端数据解析异常");
+				} else if (error instanceof ServerError) {
+					ToastUtil.longToast(getApplicationContext(), "服务器异常");
+				} else if (error instanceof TimeoutError) {
+					ToastUtil.longToast(getApplicationContext(), "连接超时");
+				} else if (error instanceof AuthFailureError) {
+					ToastUtil.longToast(getApplicationContext(), "授权异常");
+				}
 
 			}
 		});

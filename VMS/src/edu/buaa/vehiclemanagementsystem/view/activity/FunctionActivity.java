@@ -1,6 +1,7 @@
 package edu.buaa.vehiclemanagementsystem.view.activity;
 
 import edu.buaa.vehiclemanagementsystem.R;
+import edu.buaa.vehiclemanagementsystem.view.activity.base.BaseActivity;
 
 import android.content.Intent;
 
@@ -27,11 +28,6 @@ public class FunctionActivity extends BaseActivity {
 
 	@Click(R.id.btn_locus_info)
 	void locusInfo() {
-		startActivity(new Intent(this, ChooseLocationActivity_.class));
-	}
-
-	@Click(R.id.btn_locus_number)
-	void locusNumber() {
 		startActivity(new Intent(this, ChooseLocationActivity_.class));
 	}
 
